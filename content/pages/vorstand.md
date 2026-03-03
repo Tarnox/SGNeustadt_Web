@@ -1,76 +1,80 @@
 ---
-title: Impressum
-slug: https://beta.sgneustadt.de/impressum
+title: Datenschutz
+slug: https://beta.sgneustadt.de/datenschutz
 ---
-# Impressum
+# Datenschutzerklärung
 
-Für: Schützengesellschaft Neustadt an der Weinstraße seit 1485 e.V. – www.sgneustadt.de
+**Datenschutzerklärung**
 
-Vereinsnummer: 2411
+www.sgneustadt.de
 
-Gemäß § 28 BDSG widersprechen wir jeder kommerziellen Verwendung und Weitergabe unserer Daten.
+**Geltungsbereich**
 
-Verantwortungsbereich:
-Das Impressum gilt nur für die Internetpräsenz unter der Adresse:
-http://www.sgneustadt.de
+Diese Datenschutzerklärung soll die Nutzer dieser Website gemäß Bundesdatenschutzgesetz und Telemediengesetz über die Art, den Umfang und den Zweck der Erhebung und Verwendung personenbezogener Daten durch den Websitebetreiber
 
-Dienstanbieter:
-Verein Schützengesellschaft Neustadt an der Weinstraße seit 1485 e.V.
-Registriert unter:
-Registergericht Ludwigshafen VR 40667
-Steuer-Nr. 31-1052-II/2 Finanzamt Neustadt
+Schützengesellschaft Neustadt an der Weinstraße seit 1485 e.V.
 
-Verantwortliche Ansprechperson:
-Peter Weihl
 Karolinenstraße 99
-67434 Neustadt an der Weinstraße
 
-Elektronische Postadresse:
-Verein@sgneustadt.de
+67433 Neustadt an der Weinstraße
 
-Schnelle und unmittelbare Kommunikation:
-Telefon: 06321/18 76 70 1
-Telefax: 06321/95 49 16 7
+Tel.: 06321/1876701 (bitte beachten Sie hier unsere Schießzeiten)
 
-Zweck dieses Webprojektes:
-Infos über die Vereinsarbeit der Schützengesellschaft Neustadt seit 1485 e.V.
+E-Mail.: Verein@sgneustadt.de
 
-Urheberschutz und Nutzung:
-Der Urheber räumt Ihnen ganz konkret das Nutzungsrecht ein, sich eine private Kopie für persönliche Zwecke anzufertigen.
-Nicht berechtigt sind Sie dagegen, die Materialien zu verändern und /oder weiter zu geben oder gar selbst zu veröffentlichen.
-Wenn nicht ausdrücklich anders vermerkt, liegen die Urheberrechte für Texte bei der Schützengesellschaft Neustadt seit 1485 e.V.
-Die meisten Bilder unterliegen den Urheberrechten der Schützengesellschaft Neustadt seit 1485 e.V.
+informieren.
 
-Schutzrechtsverletzung:
-Falls Sie vermuten, dass von dieser Website aus eines Ihrer Schutzrechte verletzt wird, teilen Sie das bitte umgehend per elektronischer Post mit, damit zügig Abhilfe geschafft werden kann. Bitte nehmen Sie zur Kenntnis: Die zeitaufwändigere Einschaltung eines Anwaltes zur für den Diensteanbieter kostenpflichtigen Abmahnung entspricht nicht dessen wirklichen oder mutmaßlichen Willen.
+Der Websitebetreiber nimmt Ihren Datenschutz sehr ernst und behandelt Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Vorschriften.
 
-Keine Haftung:
-Die Inhalte dieses Webprojektes wurden sorgfältig geprüft und nach bestem Wissen erstellt. Aber für die hier dargebotenen Informationen wird kein Anspruch auf Vollständigkeit, Aktualität, Qualität und Richtigkeit erhoben.
-Es kann keine Verantwortung für Schäden übernommen werden, die durch das Vertrauen auf die Inhalte dieser Website oder deren Gebrauch entstehen.
+Bedenken Sie, dass die Datenübertragung im Internet grundsätzlich mit Sicherheitslücken bedacht sein kann. Ein vollumfänglicher Schutz vor dem Zugriff durch Fremde ist nicht realisierbar.
 
-Webauftritt:
-Diese Seite wird von der Schützengesellschaft Neustadt seit 1485 e.V.
-gestaltet und technisch umgesetzt.
-Technischer Ansprechpartner: Verein@sgneustadt.de
+#### Zugriffsdaten
 
-Abgrenzung:
-Die Web-Präsenz ist Teil des WWW und dementsprechend mit Fremden, sich jederzeit wandeln könnenden Web-Sites verknüpft, die folglich auch nicht diesem Verantwortungsbereich unterliegen und für die nachfolgende Informationen nicht gelten. Dass die Links weder gegen Sitten noch Gesetze verstoßen, wurde genau ein mal geprüft: bevor sie hier aufgenommen wurden. Solche Links, die zu fremden Webprojekten führen, erkennen Sie daran: ein neues Browserfenster geht auf.
+Der Websitebetreiber bzw. Seitenprovider erhebt Daten über Zugriffe auf die Seite und speichert diese als „Server-Logfiles“ ab. Folgende Daten werden so protokolliert:
 
-Datenschutz:
-Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst und halten uns strikt an die Regeln der Datenschutzgesetze. Personenbezogene Daten werden auf dieser Webseite nur im technisch notwendigen Umfang erhoben. In keinem Fall werden die erhobenen Daten verkauft oder aus anderen Gründen an Dritte weitergegeben. Die nachfolgende Erklärung gibt Ihnen einen Überblick darüber, wie wir diesen Schutz gewährleisten und welche Art von Daten zu welchem Zweck erhoben werden.
+* Besuchte Website
+* Uhrzeit zum Zeitpunkt des Zugriffes
+* Menge der gesendeten Daten in Byte
+* Quelle/Verweis, von welchem Sie auf die Seite gelangten
+* Verwendeter Browser
+* Verwendetes Betriebssystem
+* Verwendete IP-Adresse
 
-Log Files:
-Die Schützengesellschaft Neustadt seit 1485 e.V. erhebt und speichert automatisch in seinem Server Informationen, die Ihr Browser an uns übermittelt. Dies sind:
-– Browsertyp/ -version
-– verwendetes Betriebssystem
-– Referrer URL (die zuvor besuchte Seite)
-– Hostname des zugreifenden Rechners (IP Adresse)
-– Uhrzeit der Serveranfrage.
-Diese Daten sind für die Schützengesellschaft Neustadt seit 1485 e.V. nicht bestimmten Personen zuordenbar. Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht vorgenommen, die Daten werden zudem nach einer statistischen Auswertung gelöscht.
+Die erhobenen Daten dienen lediglich statistischen Auswertungen und zur Verbesserung der Website. Der Websitebetreiber behält sich allerdings vor, die Server-Logfiles nachträglich zu überprüfen, sollten konkrete Anhaltspunkte auf eine rechtswidrige Nutzung hinweisen.
 
-Auskunftsrecht:
-Sie haben jederzeit das Recht auf Auskunft über die bezüglich Ihrer Person gespeicherten Daten, deren Herkunft und Empfänger sowie den Zweck der Speicherung. Auskunft über die gespeicherten Daten gibt der Datenschutzbeauftragte.
+#### Cookies
 
-Weitere Informationen:
-Ihr Vertrauen ist uns wichtig. Daher möchten wir Ihnen jederzeit Rede und Antwort bezüglich der Verarbeitung Ihrer personenbezogenen Daten stehen. Wenn Sie Fragen haben, die Ihnen diese Datenschutzerklärung nicht beantworten konnte oder wenn Sie zu einem Punkt vertiefte Informationen wünschen, wenden Sie sich bitte jederzeit an den Datenschutzbeauftragten
-Verein@sgneustadt.de
+Diese Website verwendet Cookies. Dabei handelt es sich um kleine Textdateien, welche auf Ihrem Endgerät gespeichert werden. Ihr Browser greift auf diese Dateien zu. Durch den Einsatz von Cookies erhöht sich die Benutzerfreundlichkeit und Sicherheit dieser Website.
+
+Gängige Browser bieten die Einstellungsoption, Cookies nicht zuzulassen. Hinweis: Es ist nicht gewährleistet, dass Sie auf alle Funktionen dieser Website ohne Einschränkungen zugreifen können, wenn Sie entsprechende Einstellungen vornehmen.
+
+#### Umgang mit personenbezogenen Daten
+
+Der Websitebetreiber erhebt, nutzt und gibt Ihre personenbezogenen Daten nur dann weiter, wenn dies im gesetzlichen Rahmen erlaubt ist oder Sie in die Datenerhebung einwilligen.
+
+Als personenbezogene Daten gelten sämtliche Informationen, welche dazu dienen, Ihre Person zu bestimmen und welche zu Ihnen zurückverfolgt werden können – also beispielsweise Ihr Name, Ihre E-Mail-Adresse und Telefonnummer.
+
+#### Umgang mit Kontaktdaten
+
+Nehmen Sie mit dem Websitebetreiber durch die angebotenen Kontaktmöglichkeiten Verbindung auf, werden Ihre Angaben gespeichert, damit auf diese zur Bearbeitung und Beantwortung Ihrer Anfrage zurückgegriffen werden kann. Ohne Ihre Einwilligung werden diese Daten nicht an Dritte weitergegeben.
+
+#### Verlinkung von Ergebnissen, Meisterschaften und Veranstaltungen
+
+Auf dieser Seite werden Listen von Ergebnissen und Meisterschaften als Information für unsere Mitglieder veröffentlicht.
+
+Die Datenschutzbestimmungen der Seite kann von den Bestimmungen dieser Seite abweichen
+
+#### Rechte des Nutzers: Auskunft, Berichtigung und Löschung
+
+Sie als Nutzer erhalten auf Antrag Ihrerseits kostenlose Auskunft darüber, welche personenbezogenen Daten über Sie gespeichert wurden. Sofern Ihr Wunsch nicht mit einer gesetzlichen Pflicht zur Aufbewahrung von Daten (z. B. Vorratsdatenspeicherung) kollidiert, haben Sie ein Anrecht auf Berichtigung falscher Daten und auf die Sperrung oder Löschung Ihrer personenbezogenen Daten
+
+#### Einbindung von Google Maps
+
+Durch die Nutzung von Google Maps auf der Seite werden informationen zu Ihrem Standort erhoben. Dies wird von Google verwendet um Funktionen wie Wegbeschreibungen usw. an zu bieten.
+
+Je nach Genauigkeit wird der Standort über folgendes bestimmt:
+
+* GPS
+* IP-Adresse
+* Sensordaten von Ihrem Gerät
+* Informationen über Objekte in der Nähe Ihres Geräts, wie etwa WLAN-Zugriffspunkte, Funkmasten und Bluetooth-fähige Gerät
