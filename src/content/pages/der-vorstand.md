@@ -1,6 +1,5 @@
 ---
 title: Der Vorstand
-slug: https://beta.sgneustadt.de/vorstand
 ---
 # Der Vorstand
 

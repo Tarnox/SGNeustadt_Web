@@ -1,6 +1,5 @@
 ---
 title: Datenschutz
-slug: https://beta.sgneustadt.de/datenschutz
 ---
 # Datenschutzerklärung
 

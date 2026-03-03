@@ -18,9 +18,6 @@ collections:
       - label: Titel
         name: title
         widget: string
-      - label: URL
-        name: slug
-        widget: string
       - label: Inhalt
         name: body
         widget: markdown

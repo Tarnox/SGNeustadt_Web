@@ -1,6 +1,5 @@
 ---
 title: Gesetzänderung Waffenaufbewahrung
-slug: https://beta.sgneustadt.de/gesetz-aenderung-waffenaufbewahrung
 ---
 # Gesetzänderung Waffenaufbewahrung
 
