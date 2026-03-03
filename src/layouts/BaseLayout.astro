@@ -1,0 +1,43 @@
+---
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title ? `${title} | SG Neustadt` : "SG Neustadt"}</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 0; background: #f8f9fa; }
+      header { background: #1f2937; color: white; padding: 1rem; }
+      nav a { color: white; margin-right: 1rem; text-decoration: none; }
+      nav a:hover { text-decoration: underline; }
+      main { max-width: 1000px; margin: 2rem auto; padding: 1rem; background: white; }
+      footer { background: #111827; color: #ccc; padding: 2rem; text-align: center; font-size: 0.9rem; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Schützengesellschaft Neustadt</h1>
+      <nav>
+        <a href="/">Start</a>
+        <a href="/verein">Verein</a>
+        <a href="/termine">Termine</a>
+        <a href="/news">News</a>
+        <a href="/downloads">Downloads</a>
+        <a href="/kontakt">Kontakt</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      © {new Date().getFullYear()} SG Neustadt |
+      <a href="/impressum">Impressum</a> |
+      <a href="/datenschutz">Datenschutz</a>
+    </footer>
+  </body>
+</html>
