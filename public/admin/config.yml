@@ -1,0 +1,51 @@
+backend:
+  name: github
+  repo: Tarnox/SGNeustadt_Web
+  branch: main
+  base_url: https://beta.sgneustadt.de
+  auth_endpoint: api/auth
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: pages
+    label: Seiten
+    folder: content/pages
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: Titel
+        name: title
+        widget: string
+      - label: URL
+        name: slug
+        widget: string
+      - label: Inhalt
+        name: body
+        widget: markdown
+
+  - name: events
+    label: Termine
+    folder: content/events
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - label: Titel
+        name: title
+        widget: string
+      - label: Beginn
+        name: start
+        widget: datetime
+      - label: Ende
+        name: end
+        widget: datetime
+        required: false
+      - label: Ort
+        name: location
+        widget: string
+        required: false
+      - label: Beschreibung
+        name: body
+        widget: markdown
+        required: false
