@@ -17,7 +17,16 @@ const news = defineCollection({
   }),
 });
 
+const pages = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+  }),
+});
+
 export const collections = {
   events,
   news,
+  pages,
 };
+
