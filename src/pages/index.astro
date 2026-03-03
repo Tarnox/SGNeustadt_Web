@@ -2,6 +2,10 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
+const news = (await getCollection("news"))
+  .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
+  .slice(0, 3);
+
 const events = await getCollection("events");
 
 const upcoming = events
@@ -27,4 +31,17 @@ const upcoming = events
       <p><a href="/termine">Alle Termine ansehen →</a></p>
     ))}
   </ul>
+<h3>Neuigkeiten</h3>
+{news.length === 0 ? <p>Noch keine News.</p> : (
+  <ul>
+    {news.map(p => (
+      <li>
+        <a href={`/news/${p.slug}/`}><strong>{p.data.title}</strong></a><br />
+        {new Date(p.data.date).toLocaleDateString("de-DE")}
+      </li>
+    ))}
+  </ul>
+)}
+<p><a href="/news">Alle News ansehen →</a></p>
+
 </BaseLayout>
