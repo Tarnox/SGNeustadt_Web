@@ -1,6 +1,6 @@
 ---
 title: Der Vorstand
-slug: https://www.sgneustadt.de/vorstand/
+slug: https://www.sgneustadt.de/vorstand
 ---
 # Der Vorstand
 
