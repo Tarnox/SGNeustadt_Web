@@ -1,6 +1,6 @@
 ---
 title: Vereinsbeiträge
-slug: https://www.sgneustadt.de/vereinsbeitraege
+slug: https://beta.sgneustadt.de/vereinsbeitraege
 ---
 # Vereinsbeiträge
 
