@@ -1,6 +1,6 @@
 ---
 title: Öffnungszeiten
-slug: https://www.sgneustadt.de/oeffnungszeiten
+slug: https://beta.sgneustadt.de/oeffnungszeiten
 ---
 # Öffnungszeiten
 
