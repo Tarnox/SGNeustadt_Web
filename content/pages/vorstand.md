@@ -1,11 +1,15 @@
 ---
-title: Vereinsbeiträge
-slug: https://beta.sgneustadt.de/vereinbeitraege
+title: Gesetzänderung Waffenaufbewahrung
+slug: https://beta.sgneustadt.de/gesetzaenderung-waffenaufbewahrung
 ---
-# Vereinsbeiträge
+# Gesetzänderung Waffenaufbewahrung
 
-* Eine Aufnahmegebühr von 100 Euro
-* Bei einem Vereinswechsel fallen 10 Euro Gebühren an
-* Der Jahresbeitrag für Erwachsene beträgt 84 Euro
-* Der Jahresbeitrag für Ehepartner, Schüler und Studenten bis zum vollendeten 28. Lebensjahr beträgt 72 Euro
-* Der Jahresbeitrag für Kinder und jugendliche bis zum vollendeten 14. Lebensjahr beträgt 54 Euro
+Hier die Verlinkung zum DSB zum:
+
+\-Aufbewahrung der Waffen von Neuanträgen
+
+<http://www.dsb.de/infothek/recht/waffenrecht/aktuelles/meldung/6788-Aenderungen-des-Waffengesetzes-sind-in-Kraft/>
+
+– Bestandsschutz der Altbestände
+
+<http://www.dsb.de/infothek/recht/waffenrecht/aktuelles/meldung/6823-Bestandsschutz-fuer-Waffenschraenke-bisherige-Nutzung-ausschlaggebend/>
