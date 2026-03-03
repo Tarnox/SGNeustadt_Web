@@ -20,7 +20,7 @@ const news = defineCollection({
 const pages = defineCollection({
   schema: z.object({
     title: z.string(),
-    slug: z.string(),
+   // slug: z.string(),
   }),
 });
 
