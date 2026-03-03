@@ -7,7 +7,7 @@ const events = await getCollection("events");
 const upcoming = events
   .filter(e => new Date(e.data.start) >= new Date())
   .sort((a, b) => new Date(a.data.start) - new Date(b.data.start))
-  .slice(0, 3);
+  .slice(0, 5);
 ---
 
 <BaseLayout title="Start">
@@ -24,6 +24,7 @@ const upcoming = events
         {new Date(event.data.start).toLocaleString("de-DE")}
         {event.data.location && <> – {event.data.location}</>}
       </li>
+      <p><a href="/termine">Alle Termine ansehen →</a></p>
     ))}
   </ul>
 </BaseLayout>

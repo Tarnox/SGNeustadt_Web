@@ -3,22 +3,43 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
 const events = await getCollection("events");
+const now = new Date();
 
-const sorted = events.sort(
-  (a, b) => new Date(a.data.start) - new Date(b.data.start)
-);
+const upcoming = events
+  .filter(e => new Date(e.data.start) >= now)
+  .sort((a, b) => new Date(a.data.start) - new Date(b.data.start));
+
+const past = events
+  .filter(e => new Date(e.data.start) < now)
+  .sort((a, b) => new Date(b.data.start) - new Date(a.data.start));
 ---
 
 <BaseLayout title="Termine">
-  <h2>Alle Termine</h2>
+  <h2>Termine</h2>
 
-  <ul>
-    {sorted.map(event => (
-      <li>
-        <strong>{event.data.title}</strong><br />
-        {new Date(event.data.start).toLocaleString("de-DE")}
-        {event.data.location && <> – {event.data.location}</>}
-      </li>
-    ))}
-  </ul>
+  <h3>Bevorstehend</h3>
+  {upcoming.length === 0 ? <p>Keine anstehenden Termine.</p> : (
+    <ul>
+      {upcoming.map(event => (
+        <li>
+          <strong>{event.data.title}</strong><br />
+          {new Date(event.data.start).toLocaleString("de-DE")}
+          {event.data.location && <> – {event.data.location}</>}
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <h3>Vergangen</h3>
+  {past.length === 0 ? <p>Noch keine vergangenen Termine.</p> : (
+    <ul>
+      {past.slice(0, 20).map(event => (
+        <li>
+          <strong>{event.data.title}</strong><br />
+          {new Date(event.data.start).toLocaleString("de-DE")}
+          {event.data.location && <> – {event.data.location}</>}
+        </li>
+      ))}
+    </ul>
+  )}
 </BaseLayout>
