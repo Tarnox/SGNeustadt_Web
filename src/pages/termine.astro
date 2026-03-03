@@ -4,21 +4,16 @@ import { getCollection } from "astro:content";
 
 const events = await getCollection("events");
 
-const upcoming = events
-  .filter(e => new Date(e.data.start) >= new Date())
-  .sort((a, b) => new Date(a.data.start) - new Date(b.data.start))
-  .slice(0, 3);
+const sorted = events.sort(
+  (a, b) => new Date(a.data.start) - new Date(b.data.start)
+);
 ---
 
-<BaseLayout title="Start">
-  <h2>Willkommen bei der Schützengesellschaft Neustadt</h2>
-
-  <h3>Nächste Termine</h3>
-
-  {upcoming.length === 0 && <p>Keine anstehenden Termine.</p>}
+<BaseLayout title="Termine">
+  <h2>Alle Termine</h2>
 
   <ul>
-    {upcoming.map(event => (
+    {sorted.map(event => (
       <li>
         <strong>{event.data.title}</strong><br />
         {new Date(event.data.start).toLocaleString("de-DE")}
