@@ -60,9 +60,8 @@ const { title } = Astro.props;
   background: #f3f4f6;
 }
 
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+.dropdown.open .dropdown-content { display: block; }
+
     </style>
   </head>
   <body>
@@ -73,15 +72,17 @@ const { title } = Astro.props;
   <a href="/termine">Termine</a>
   <a href="/news">News</a>
 
-  <div class="dropdown">
-    <button class="dropbtn" type="button">Verein ▾</button>
-    <div class="dropdown-content">
-      <a href="/vorstand">Vorstand</a>
-      <a href="/vereinsgeschichte">Vereinsgeschichte</a>
-      <a href="/vereinsbeitraege">Vereinsbeiträge</a>
-      <a href="/gesetz-aenderung-waffenaufbewahrung">Gesetzänderung Waffenaufbewahrung</a>
-    </div>
+<div class="dropdown" data-dropdown>
+  <button class="dropbtn" type="button" aria-haspopup="true" aria-expanded="false">
+    Verein ▾
+  </button>
+  <div class="dropdown-content" role="menu">
+    <a href="/vorstand">Vorstand</a>
+    <a href="/vereinsgeschichte">Vereinsgeschichte</a>
+    <a href="/vereinsbeitraege">Vereinsbeiträge</a>
+    <a href="/gesetz-aenderung-waffenaufbewahrung">Gesetzänderung Waffenaufbewahrung</a>
   </div>
+</div>
 
   <a href="/oeffnungszeiten">Öffnungszeiten</a>
   <a href="/kontakt">Kontakt</a>
@@ -97,5 +98,32 @@ const { title } = Astro.props;
       <a href="/impressum">Impressum</a> |
       <a href="/datenschutz">Datenschutz</a>
     </footer>
+<script>
+  document.addEventListener("click", (e) => {
+    const dropdowns = document.querySelectorAll("[data-dropdown]");
+    dropdowns.forEach((dd) => {
+      const btn = dd.querySelector("button");
+      const isClickInside = dd.contains(e.target);
+
+      if (isClickInside) {
+        dd.classList.toggle("open");
+        btn?.setAttribute("aria-expanded", dd.classList.contains("open") ? "true" : "false");
+      } else {
+        dd.classList.remove("open");
+        btn?.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      document.querySelectorAll("[data-dropdown]").forEach((dd) => {
+        dd.classList.remove("open");
+        const btn = dd.querySelector("button");
+        btn?.setAttribute("aria-expanded", "false");
+      });
+    }
+  });
+</script>
   </body>
 </html>
