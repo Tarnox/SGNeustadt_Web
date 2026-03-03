@@ -1,6 +1,6 @@
 ---
 title: Vereinsgeschichte
-slug: https://beta.sgneustadt.de/vereinsgeschichte/
+slug: https://beta.sgneustadt.de/vereinsgeschichte
 ---
 # Vereinsgeschichte
 
