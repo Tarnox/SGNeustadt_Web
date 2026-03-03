@@ -1,6 +1,6 @@
 ---
 title: Impressum
-slug: https://www.sgneustadt.de/impressum
+slug: https://beta.sgneustadt.de/impressum
 ---
 # Impressum
 
