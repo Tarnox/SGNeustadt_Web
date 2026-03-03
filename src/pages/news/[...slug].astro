@@ -17,7 +17,7 @@ const { Content } = await render(post);
 <BaseLayout title={post.data.title}>
   <p><a href="/news">← Zurück zu News</a></p>
   <h2>{post.data.title}</h2>
-  <p>{new Date(post.data.date).toLocaleDateString("de-DE")}</p>
+  <p>{post.data.date.toLocaleDateString("de-DE")}</p>
 
   {post.data.cover && (
     <p><img src={post.data.cover} alt="" style="max-width:100%;border-radius:12px;" /></p>

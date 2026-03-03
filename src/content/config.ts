@@ -12,7 +12,7 @@ const events = defineCollection({
 const news = defineCollection({
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: z.coerce.date(),
     cover: z.string().optional(),
   }),
 });

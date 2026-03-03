@@ -14,7 +14,7 @@ const posts = (await getCollection("news"))
       {posts.map(p => (
         <li>
           <a href={`/news/${p.slug}/`}><strong>{p.data.title}</strong></a><br />
-          {new Date(p.data.date).toLocaleDateString("de-DE")}
+          {p.data.date.toLocaleDateString("de-DE")}
         </li>
       ))}
     </ul>
