@@ -1,14 +1,50 @@
 ---
-title: Gesetzänderung Waffenaufbewahrung
+title: Der  Vorstand
 ---
-# Gesetzänderung Waffenaufbewahrung
+# Ver Vorstand
 
-Hier die Verlinkung zum DSB zum:
+Der Vorstand hier vorgestellt. Wer ist für was zuständig.
 
-\-Aufbewahrung der Waffen von Neuanträgen
+1. Vorsitzender (Oberschützenmeister)
 
-<http://www.dsb.de/infothek/recht/waffenrecht/aktuelles/meldung/6788-Aenderungen-des-Waffengesetzes-sind-in-Kraft/>
+Peter Weihl
 
-– Bestandsschutz der Altbestände
+2. Vorsitzender (Schützenmeister)
 
-<http://www.dsb.de/infothek/recht/waffenrecht/aktuelles/meldung/6823-Bestandsschutz-fuer-Waffenschraenke-bisherige-Nutzung-ausschlaggebend/>
+Thomas Magin
+
+Schriftführer
+
+Thomas Anspach
+
+Schatzmeister
+
+Reiner Fußer
+
+Sportleiter
+
+Michael Kuckert
+
+Beisitzer (Ökonom)
+
+Daniel Wolf
+
+Beisitzer (Jugendleiterin)
+
+Pia Benker
+
+Beisitzer (Öffentlichkeitsarbeit)
+
+Thomas Magin
+
+Beisitzer (Web-Präsenz)
+
+Simon Gerhard
+
+Beisitzer
+
+Peter Ehresmann
+
+Beisitzer
+
+Michael Keppler
