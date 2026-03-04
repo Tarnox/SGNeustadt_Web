@@ -24,9 +24,26 @@ const pages = defineCollection({
   }),
 });
 
+const galleries = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    cover: z.string().optional(),
+    images: z
+      .array(
+        z.object({
+          src: z.string(),
+          alt: z.string().optional(),
+        })
+      )
+      .default([]),
+  }),
+});
+
 export const collections = {
   events,
   news,
   pages,
+  galleries,
 };
 

@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const galleries = await getCollection("galleries");
+  return galleries.map((g) => ({
+    params: { slug: g.slug },
+    props: { gallery: g },
+  }));
+}
+
+const { gallery } = Astro.props;
+const { Content } = await render(gallery);
+---
+
+<BaseLayout title={gallery.data.title}>
+  <p><a href="/galerie/">← Zurück zur Galerie</a></p>
+  <h2>{gallery.data.title}</h2>
+  <p>{gallery.data.date.toLocaleDateString("de-DE")}</p>
+
+  <div style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+    {gallery.data.images.map((img) => (
+      <figure style="margin:0;">
+        <a href={img.src} target="_blank" rel="noreferrer">
+          <img src={img.src} alt={img.alt ?? ""} style="width:100%;height:220px;object-fit:cover;border-radius:12px;" />
+        </a>
+        {img.alt && <figcaption style="font-size:.9rem;opacity:.8;margin-top:6px;">{img.alt}</figcaption>}
+      </figure>
+    ))}
+  </div>
+
+  <div style="margin-top:20px;">
+    <Content />
+  </div>
+</BaseLayout>
