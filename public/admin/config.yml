@@ -93,31 +93,14 @@ collections:
         widget: markdown
         required: false
 
-  - name: downloads
-    label: Downloads
-    folder: src/content/downloads
+  - name: "downloads"
+    label: "Downloads"
+    folder: "src/content/downloads"
     create: true
-    slug: "{{slug}}"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - label: Titel
-        name: title
-        widget: string
-- { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
-      - label: Kategorie
-        name: category
-        widget: select
-        options:
-          - Mitgliedschaft
-          - Formulare
-          - Satzung & Ordnung
-          - Wettkampf
-          - Sonstiges
-
-      - label: Datei
-        name: file
-        widget: file
-
-      - label: Beschreibung
-        name: description
-        widget: text
-        required: false
+      - { label: "Titel", name: "title", widget: "string" }
+      - { label: "Kategorie", name: "category", widget: "string", default: "Allgemein" }
+      - { label: "Beschreibung", name: "description", widget: "text", required: false }
+      - { label: "Datei (PDF)", name: "file", widget: "file", media_folder: "/public/uploads/downloads", public_folder: "/uploads/downloads" }
+      - { label: "Datum", name: "date", widget: "datetime", required: false }

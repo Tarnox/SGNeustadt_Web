@@ -44,12 +44,14 @@ description: z.string().optional(),
 });
 
 const downloads = defineCollection({
+  type: "content",
   schema: z.object({
     title: z.string(),
-description: z.string().optional(),
-    category: z.string(),
-    file: z.string(),
-  })
+    category: z.string().default("Allgemein"),
+    file: z.string(), // URL-Pfad z.B. /uploads/downloads/xyz.pdf
+    description: z.string().optional(),
+    date: z.coerce.date().optional(),
+  }),
 });
 
 export const collections = {

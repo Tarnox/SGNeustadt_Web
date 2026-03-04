@@ -3,59 +3,51 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
 const title = "Downloads – SG Neustadt";
-const description = "Formulare, Satzung, Ordnungen und weitere Dokumente der SG Neustadt zum Download.";
+const description = "Formulare, Satzung, Ordnungen und weitere Dokumente der SG Neustadt.";
 
-let downloadEntries = [];
+let entries = [];
 try {
-  downloadEntries = await getCollection("downloads");
+  entries = await getCollection("downloads");
 } catch {
-  downloadEntries = [];
+  entries = [];
 }
 
+// sort optional: neueste zuerst wenn date vorhanden
+entries.sort((a, b) => {
+  const da = a.data.date ? new Date(a.data.date).getTime() : 0;
+  const db = b.data.date ? new Date(b.data.date).getTime() : 0;
+  return db - da;
+});
+
+// group by category
 const grouped = new Map();
-for (const d of downloadEntries) {
-  const cat = d.data.category || "Sonstiges";
+for (const e of entries) {
+  const cat = e.data.category || "Allgemein";
   if (!grouped.has(cat)) grouped.set(cat, []);
-  grouped.get(cat).push(d);
+  grouped.get(cat).push(e);
 }
 ---
 
-<BaseLayout title="Downloads">
+<BaseLayout title={title} description={description}>
+  <h1>Downloads</h1>
 
-<h1>Downloads</h1>
-
-{Object.entries(grouped).map(([category, items]) => (
-
-<section style="margin-bottom:40px;">
-
-<h2>{category}</h2>
-
-<ul style="list-style:none;padding:0">
-
-{items.map(d => (
-
-<li style="margin-bottom:12px">
-
-<a href={d.data.file} target="_blank">
-
-📄 {d.data.title}
-
-</a>
-
-{d.data.description && (
-<p style="margin:4px 0 0;color:#666">
-{d.data.description}
-</p>
-)}
-
-</li>
-
-))}
-
-</ul>
-
-</section>
-
-))}
-
+  {entries.length === 0 ? (
+    <p>Noch keine Downloads vorhanden.</p>
+  ) : (
+    Array.from(grouped.entries()).map(([cat, items]) => (
+      <section style="margin: 24px 0;">
+        <h2>{cat}</h2>
+        <ul>
+          {items.map((d) => (
+            <li style="margin: 10px 0;">
+              <a href={d.data.file} target="_blank" rel="noreferrer">
+                📄 {d.data.title}
+              </a>
+              {d.data.description && <div style="opacity:.8">{d.data.description}</div>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  )}
 </BaseLayout>
