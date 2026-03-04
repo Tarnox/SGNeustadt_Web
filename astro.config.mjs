@@ -4,6 +4,6 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: "https://sgneustadt.de",
-  integrations: [sitemap()]
+  integrations: [sitemap()],
   trailingSlash: "always",
 });
