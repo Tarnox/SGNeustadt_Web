@@ -16,6 +16,7 @@ const { Content } = await render(gallery);
 
 <BaseLayout title={gallery.data.title}>
   <p><a href="/galerie/">← Zurück zur Galerie</a></p>
+
   <h2>{gallery.data.title}</h2>
   <p>{gallery.data.date.toLocaleDateString("de-DE")}</p>
 
@@ -35,114 +36,203 @@ const { Content } = await render(gallery);
   </div>
 
   <!-- Lightbox -->
-  <div id="lightbox" class="lightbox" aria-hidden="true">
-    <button class="lightbox-close" type="button" aria-label="Schließen">×</button>
-    <img id="lightbox-img" alt="" />
+  <div id="lightbox" class="lightbox">
+
+    <button class="lightbox-close">×</button>
+
+    <button class="lightbox-prev">❮</button>
+
+    <img id="lightbox-img" />
+
+    <button class="lightbox-next">❯</button>
+
   </div>
 
   <div style="margin-top:20px;">
     <Content />
   </div>
 
-  <script>
-    const images = document.querySelectorAll(".gallery-image");
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-    const closeBtn = lightbox.querySelector(".lightbox-close");
+<script>
 
-    function openLightbox(src, alt) {
-      lightbox.style.display = "flex";
-      lightbox.setAttribute("aria-hidden", "false");
-      lightboxImg.src = src;
-      lightboxImg.alt = alt || "";
-      document.body.style.overflow = "hidden";
-    }
+const images = Array.from(document.querySelectorAll(".gallery-image"));
 
-    function closeLightbox() {
-      lightbox.style.display = "none";
-      lightbox.setAttribute("aria-hidden", "true");
-      lightboxImg.src = "";
-      document.body.style.overflow = "";
-    }
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightbox-img");
 
-    images.forEach((img) => {
-      img.addEventListener("click", () => openLightbox(img.src, img.alt));
-    });
+const closeBtn = document.querySelector(".lightbox-close");
+const nextBtn = document.querySelector(".lightbox-next");
+const prevBtn = document.querySelector(".lightbox-prev");
 
-    closeBtn.addEventListener("click", closeLightbox);
+let currentIndex = 0;
 
-    // Click outside image closes
-    lightbox.addEventListener("click", (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
+function showImage(index){
+  const img = images[index];
+  lightboxImg.src = img.src;
+  currentIndex = index;
+}
 
-    // ESC closes
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeLightbox();
-    });
-  </script>
+function openLightbox(index){
+  showImage(index);
+  lightbox.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
 
-  <style>
-    .gallery-grid {
-      display: grid;
-      gap: 12px;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      margin-top: 12px;
-    }
+function closeLightbox(){
+  lightbox.style.display = "none";
+  document.body.style.overflow = "";
+}
 
-    .gallery-image {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 12px;
-      cursor: pointer;
-    }
+function next(){
+  currentIndex = (currentIndex + 1) % images.length;
+  showImage(currentIndex);
+}
 
-    figure {
-      margin: 0;
-    }
+function prev(){
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  showImage(currentIndex);
+}
 
-    figcaption {
-      font-size: 0.9rem;
-      opacity: 0.8;
-      margin-top: 6px;
-    }
+images.forEach((img,i)=>{
+  img.addEventListener("click",()=>openLightbox(i));
+});
 
-    .lightbox {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-    }
+closeBtn.addEventListener("click",closeLightbox);
 
-    .lightbox img {
-      max-width: 92vw;
-      max-height: 92vh;
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0,0,0,.35);
-    }
+nextBtn.addEventListener("click",next);
+prevBtn.addEventListener("click",prev);
 
-    .lightbox-close {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      border: 0;
-      background: rgba(255,255,255,0.14);
-      color: white;
-      font-size: 28px;
-      cursor: pointer;
-      line-height: 1;
-    }
+lightbox.addEventListener("click",(e)=>{
+  if(e.target===lightbox) closeLightbox();
+});
 
-    .lightbox-close:hover {
-      background: rgba(255,255,255,0.22);
-    }
-  </style>
+document.addEventListener("keydown",(e)=>{
+
+  if(lightbox.style.display!=="flex") return;
+
+  if(e.key==="Escape") closeLightbox();
+  if(e.key==="ArrowRight") next();
+  if(e.key==="ArrowLeft") prev();
+
+});
+
+
+// Swipe support
+
+let startX=0;
+
+lightbox.addEventListener("touchstart",(e)=>{
+  startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener("touchend",(e)=>{
+
+  let endX = e.changedTouches[0].clientX;
+
+  if(startX-endX>50) next();
+  if(endX-startX>50) prev();
+
+});
+
+</script>
+
+
+<style>
+
+.gallery-grid{
+display:grid;
+gap:12px;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+margin-top:12px;
+}
+
+.gallery-image{
+width:100%;
+height:220px;
+object-fit:cover;
+border-radius:12px;
+cursor:pointer;
+}
+
+figure{margin:0}
+
+figcaption{
+font-size:.9rem;
+opacity:.8;
+margin-top:6px;
+}
+
+
+.lightbox{
+
+display:none;
+position:fixed;
+z-index:9999;
+inset:0;
+
+background:rgba(0,0,0,.92);
+
+justify-content:center;
+align-items:center;
+
+}
+
+.lightbox img{
+
+max-width:90%;
+max-height:90%;
+
+border-radius:12px;
+
+}
+
+
+.lightbox-close{
+
+position:absolute;
+top:20px;
+right:25px;
+
+font-size:40px;
+color:white;
+background:none;
+border:none;
+
+cursor:pointer;
+
+}
+
+
+.lightbox-prev,
+.lightbox-next{
+
+position:absolute;
+top:50%;
+
+transform:translateY(-50%);
+
+font-size:50px;
+color:white;
+
+background:none;
+border:none;
+
+cursor:pointer;
+
+padding:20px;
+
+}
+
+.lightbox-prev{left:10px}
+.lightbox-next{right:10px}
+
+
+.lightbox-prev:hover,
+.lightbox-next:hover{
+
+opacity:.7;
+
+}
+
+</style>
+
 </BaseLayout>
