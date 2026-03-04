@@ -19,18 +19,130 @@ const { Content } = await render(gallery);
   <h2>{gallery.data.title}</h2>
   <p>{gallery.data.date.toLocaleDateString("de-DE")}</p>
 
-  <div style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
-    {gallery.data.images.map((img) => (
-      <figure style="margin:0;">
-        <a href={img.src} target="_blank" rel="noreferrer">
-          <img src={img.src} alt={img.alt ?? ""} style="width:100%;height:220px;object-fit:cover;border-radius:12px;" />
-        </a>
-        {img.alt && <figcaption style="font-size:.9rem;opacity:.8;margin-top:6px;">{img.alt}</figcaption>}
+  <div class="gallery-grid">
+    {gallery.data.images.map((img, i) => (
+      <figure>
+        <img
+          src={img.src}
+          alt={img.alt ?? ""}
+          data-index={i}
+          class="gallery-image"
+          loading="lazy"
+        />
+        {img.alt && <figcaption>{img.alt}</figcaption>}
       </figure>
     ))}
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <button class="lightbox-close" type="button" aria-label="Schließen">×</button>
+    <img id="lightbox-img" alt="" />
   </div>
 
   <div style="margin-top:20px;">
     <Content />
   </div>
+
+  <script>
+    const images = document.querySelectorAll(".gallery-image");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const closeBtn = lightbox.querySelector(".lightbox-close");
+
+    function openLightbox(src, alt) {
+      lightbox.style.display = "flex";
+      lightbox.setAttribute("aria-hidden", "false");
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || "";
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      lightbox.style.display = "none";
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxImg.src = "";
+      document.body.style.overflow = "";
+    }
+
+    images.forEach((img) => {
+      img.addEventListener("click", () => openLightbox(img.src, img.alt));
+    });
+
+    closeBtn.addEventListener("click", closeLightbox);
+
+    // Click outside image closes
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // ESC closes
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
+  </script>
+
+  <style>
+    .gallery-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 12px;
+    }
+
+    .gallery-image {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    figcaption {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-top: 6px;
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .lightbox img {
+      max-width: 92vw;
+      max-height: 92vh;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.35);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 0;
+      background: rgba(255,255,255,0.14);
+      color: white;
+      font-size: 28px;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255,255,255,0.22);
+    }
+  </style>
 </BaseLayout>
