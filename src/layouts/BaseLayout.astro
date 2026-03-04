@@ -5,9 +5,44 @@ const { title } = Astro.props;
 <!DOCTYPE html>
 <html lang="de">
   <head>
+
+<title>{title}</title>
+
+<meta name="description" content={description} />
+
+<link rel="canonical" href={`https://sgneustadt.de${Astro.url.pathname}`} />
+
+  <!-- Open Graph (Facebook / WhatsApp / Discord Vorschau) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={`https://sgneustadt.de${Astro.url.pathname}`} />
+  <meta property="og:image" content="https://sgneustadt.de/og-image.jpg" />
+
+  <!-- Twitter Preview -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content="https://sgneustadt.de/og-image.jpg" />
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title ? `${title} | SG Neustadt` : "SG Neustadt"}</title>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SportsOrganization",
+  "name": "Schützenverein SG Neustadt",
+  "url": "https://sgneustadt.de",
+  "logo": "https://sgneustadt.de/favicon.svg",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Neustadt",
+    "addressCountry": "DE"
+  }
+}
+</script>
+
     <style>
       body { font-family: system-ui, sans-serif; margin: 0; background: #f8f9fa; }
       header { background: #1f2937; color: white; padding: 1rem; }
