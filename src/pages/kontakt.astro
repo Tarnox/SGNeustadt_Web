@@ -110,6 +110,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       const json = await res.json().catch(() => ({}));
 
+const text = await res.text();
+let json = {};
+try { json = JSON.parse(text); } catch {}
+
       if (!res.ok || !json.ok) {
         statusEl.textContent = json.error || "Fehler beim Senden.";
         return;
