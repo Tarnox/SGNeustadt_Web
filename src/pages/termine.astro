@@ -2,18 +2,26 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-// deine bisherigen Termine-Daten:
+const title = "Termine – SG Neustadt";
+const description = "Alle Termine und Veranstaltungen des Schützenvereins SG Neustadt.";
+
 const events = await getCollection("events");
+
+// Sortierung: nächste zuerst
 events.sort((a, b) => a.data.start.getTime() - b.data.start.getTime());
 
-// JSON-LD Events bauen
+// Filter: nur kommende Termine
+const now = new Date();
+const upcoming = events.filter((e) => e.data.start >= now);
+
+// JSON-LD (Event SEO)
 const origin = Astro.url.origin;
 
-const eventJsonLd = events.map((e) => {
-  const start = e.data.start instanceof Date ? e.data.start.toISOString() : String(e.data.start);
-  const end = e.data.end ? (e.data.end instanceof Date ? e.data.end.toISOString() : String(e.data.end)) : undefined;
+const eventJsonLd = upcoming.map((e) => {
+  const start = e.data.start.toISOString();
+  const end = e.data.end ? e.data.end.toISOString() : undefined;
 
-  const obj = {
+  return {
     "@context": "https://schema.org",
     "@type": "Event",
     "name": e.data.title,
@@ -21,21 +29,13 @@ const eventJsonLd = events.map((e) => {
     ...(end ? { "endDate": end } : {}),
     "eventStatus": "https://schema.org/EventScheduled",
     "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-    "url": `${origin}/termine/`, // wenn ihr keine Einzel-Terminseiten habt
+    "url": `${origin}/termine/`,
     ...(e.data.location
-      ? {
-          "location": {
-            "@type": "Place",
-            "name": e.data.location
-          }
-        }
-      : {})
+      ? { "location": { "@type": "Place", "name": e.data.location } }
+      : {}),
   };
-
-  return obj;
 });
 
-// Optional: zusätzlich ein ItemList Wrapper (hilft manchmal)
 const eventsListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -43,15 +43,15 @@ const eventsListJsonLd = {
   "itemListElement": eventJsonLd.map((ev, i) => ({
     "@type": "ListItem",
     "position": i + 1,
-    "item": ev
-  }))
+    "item": ev,
+  })),
 };
 ---
 
 <BaseLayout
   title="Termine – SG Neustadt"
   description="Alle Termine und Veranstaltungen des Schützenvereins SG Neustadt."
-  jsonLd={[eventsListJsonLd]}  /* oder jsonLd={eventJsonLd} */
+  jsonLd={[eventsListJsonLd]}
 >
   <h2>Termine</h2>
 
