@@ -10,9 +10,14 @@ const events = await getCollection("events");
 // Sortierung: nächste zuerst
 events.sort((a, b) => a.data.start.getTime() - b.data.start.getTime());
 
-// Filter: nur kommende Termine
+// Filter: kommende + vergangene Termine
 const now = new Date();
+
 const upcoming = events.filter((e) => e.data.start >= now);
+
+const past = events
+  .filter((e) => e.data.start < now)
+  .sort((a, b) => b.data.start.getTime() - a.data.start.getTime()); // neueste zuerst
 
 // JSON-LD (Event SEO)
 const origin = Astro.url.origin;
