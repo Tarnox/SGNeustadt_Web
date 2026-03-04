@@ -69,22 +69,6 @@ const mergedJsonLdArray = [orgJsonLd, ...jsonLdArray];
   {mergedJsonLd.length > 0 && (
     <script type="application/ld+json" set:html={jsonLdString} />
   )}
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SportsOrganization",
-  "name": "Schützenverein SG Neustadt",
-  "url": "https://sgneustadt.de",
-  "logo": "https://sgneustadt.de/favicon.svg",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Neustadt",
-    "addressCountry": "DE"
-  }
-}
-</script>
-
     <style>
       body { font-family: system-ui, sans-serif; margin: 0; background: #f8f9fa; }
       header { background: #1f2937; color: white; padding: 1rem; }
