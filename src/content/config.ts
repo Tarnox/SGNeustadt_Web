@@ -12,6 +12,7 @@ const events = defineCollection({
 const news = defineCollection({
   schema: z.object({
     title: z.string(),
+description: z.string().optional(),
     date: z.coerce.date(),
     cover: z.string().optional(),
   }),
@@ -20,6 +21,7 @@ const news = defineCollection({
 const pages = defineCollection({
   schema: z.object({
     title: z.string(),
+    description: z.string().optional(),
    // slug: z.string(),
   }),
 });
@@ -27,6 +29,7 @@ const pages = defineCollection({
 const galleries = defineCollection({
   schema: z.object({
     title: z.string(),
+description: z.string().optional(),
     date: z.coerce.date(),
     cover: z.string().optional(),
     images: z
@@ -43,6 +46,7 @@ const galleries = defineCollection({
 const downloads = defineCollection({
   schema: z.object({
     title: z.string(),
+description: z.string().optional(),
     category: z.string(),
     file: z.string(),
     description: z.string().optional()

@@ -2,6 +2,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
+const title = "Downloads – SG Neustadt";
+const description = "Formulare, Satzung, Ordnungen und weitere Dokumente der SG Neustadt zum Download.";
+
+let downloads = [];
+try { downloads = await getCollection("downloads"); } catch { downloads = []; }
+
 const downloads = await getCollection("downloads");
 
 const grouped = {};
