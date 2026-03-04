@@ -48,12 +48,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   const powNonceEl = document.getElementById("powNonce");
   const powHashEl = document.getElementById("powHash");
 
-  // set start time on page load
+  // Set start time on load
   startedAtEl.value = String(Date.now());
 
   function toHex(buffer) {
     return Array.from(new Uint8Array(buffer))
-      .map(b => b.toString(16).padStart(2, "0"))
+      .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
   }
 
@@ -64,37 +64,37 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   async function computePow({ name, email, message, startedAt }) {
-    // must match server difficulty
-    const prefix = "0000"; // 16-bit difficulty
+    const prefix = "0000"; // must match server
     let nonce = 0;
 
-    // simple loop; usually finds a match quickly (few 10k hashes)
     while (true) {
       const base = `${name}|${email}|${message}|${startedAt}|${nonce}`;
       const hash = await sha256Hex(base);
+
       if (hash.startsWith(prefix)) {
         return { powNonce: String(nonce), powHash: hash };
       }
+
       nonce++;
-      // yield every now and then to keep UI responsive
-      if (nonce % 200 === 0) await new Promise(r => setTimeout(r, 0));
+      if (nonce % 200 === 0) {
+        await new Promise((r) => setTimeout(r, 0));
+      }
     }
   }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
     statusEl.textContent = "Berechne Anti-Spam…";
 
-    const data = Object.fromEntries(new FormData(form).entries());
-
     try {
-      const { powNonce, powHash } = await computePow({
-        name: String(data.name || "").trim(),
-        email: String(data.email || "").trim(),
-        message: String(data.message || "").trim(),
-        startedAt: String(data.startedAt || "").trim(),
-      });
+      const fd = new FormData(form);
+      const name = String(fd.get("name") || "").trim();
+      const email = String(fd.get("email") || "").trim();
+      const message = String(fd.get("message") || "").trim();
+      const startedAt = String(fd.get("startedAt") || "").trim();
 
+      const { powNonce, powHash } = await computePow({ name, email, message, startedAt });
       powNonceEl.value = powNonce;
       powHashEl.value = powHash;
 
@@ -102,25 +102,31 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       const payload = Object.fromEntries(new FormData(form).entries());
 
-const res = await fetch("/api/contact", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(payload),
-});
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-const text = await res.text();
-let dataObj = {};
-try { dataObj = JSON.parse(text); } catch {}
+      const text = await res.text();
+      let dataObj = {};
+      try {
+        dataObj = JSON.parse(text);
+      } catch {
+        // ignore
+      }
 
-if (!res.ok || !dataObj.ok) {
-  statusEl.textContent = dataObj.error || text || "Fehler beim Senden.";
-  return;
-}
+      if (!res.ok || !dataObj.ok) {
+        statusEl.textContent = dataObj.error || text || "Fehler beim Senden.";
+        return;
+      }
 
-form.reset();
-startedAtEl.value = String(Date.now());
-statusEl.textContent = "Danke! Nachricht wurde gesendet.";
-
+      form.reset();
+      startedAtEl.value = String(Date.now());
+      statusEl.textContent = "Danke! Nachricht wurde gesendet.";
+    } catch (err) {
+      statusEl.textContent = "Fehler. Bitte später erneut versuchen.";
+    }
   });
 </script>
 
