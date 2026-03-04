@@ -27,19 +27,18 @@ const pages = defineCollection({
 });
 
 const galleries = defineCollection({
+  type: "content",
   schema: z.object({
     title: z.string(),
-description: z.string().optional(),
+    description: z.string().optional(),
     date: z.coerce.date(),
     cover: z.string().optional(),
-    images: z
-      .array(
-        z.object({
-          src: z.string(),
-          alt: z.string().optional(),
-        })
-      )
-      .default([]),
+    images: z.array(
+      z.object({
+        src: z.string(),
+        alt: z.string().optional(),
+      })
+    ).default([]),
   }),
 });
 

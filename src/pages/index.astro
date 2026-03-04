@@ -2,46 +2,72 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const news = (await getCollection("news"))
-  .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
-  .slice(0, 3);
+let events = [];
+let news = [];
 
-const events = await getCollection("events");
+try { events = await getCollection("events"); } catch { events = []; }
+try { news = await getCollection("news"); } catch { news = []; }
 
-const upcoming = events
-  .filter(e => new Date(e.data.start) >= new Date())
-  .sort((a, b) => new Date(a.data.start) - new Date(b.data.start))
-  .slice(0, 5);
+// Nächster Termin
+events.sort((a,b) => a.data.start.getTime() - b.data.start.getTime());
+const now = new Date();
+const nextEvent = events.find(e => e.data.start >= now) ?? null;
+
+// Neueste News (max 3)
+news.sort((a,b) => b.data.date.getTime() - a.data.date.getTime());
+const latestNews = news.slice(0, 3);
 ---
 
 <BaseLayout title="Start">
   <h2>Willkommen bei der Schützengesellschaft Neustadt</h2>
 
-  <h3>Nächste Termine</h3>
+<section class="home-grid">
+  <div class="box">
+    <h2>Nächster Termin</h2>
+    {nextEvent ? (
+      <div>
+        <div class="big">{nextEvent.data.title}</div>
+        <div class="muted">
+          {nextEvent.data.start.toLocaleString("de-DE")}
+          {nextEvent.data.location && <> · {nextEvent.data.location}</>}
+        </div>
+        <p style="margin-top:10px;">
+          <a class="btn" href="/termine/">Alle Termine</a>
+        </p>
+      </div>
+    ) : (
+      <p class="muted">Aktuell sind keine kommenden Termine eingetragen.</p>
+    )}
+  </div>
 
-  {upcoming.length === 0 && <p>Keine anstehenden Termine.</p>}
+  <div class="box">
+    <h2>Neueste News</h2>
+    {latestNews.length === 0 ? (
+      <p class="muted">Noch keine News vorhanden.</p>
+    ) : (
+      <ul class="list">
+        {latestNews.map(p => (
+          <li>
+            <a href={`/news/${p.slug}/`}>{p.data.title}</a>
+            <div class="muted">{p.data.date.toLocaleDateString("de-DE")}</div>
+          </li>
+        ))}
+      </ul>
+    )}
+    <p style="margin-top:10px;">
+      <a class="btn" href="/news/">Alle News</a>
+    </p>
+  </div>
+</section>
 
-  <ul>
-    {upcoming.map(event => (
-      <li>
-        <strong>{event.data.title}</strong><br />
-        {new Date(event.data.start).toLocaleString("de-DE")}
-        {event.data.location && <> – {event.data.location}</>}
-      </li>
-      <p><a href="/termine">Alle Termine ansehen →</a></p>
-    ))}
-  </ul>
-<h3>Neuigkeiten</h3>
-{news.length === 0 ? <p>Noch keine News.</p> : (
-  <ul>
-    {news.map(p => (
-      <li>
-        <a href={`/news/${p.slug}/`}><strong>{p.data.title}</strong></a><br />
-        {new Date(p.data.date).toLocaleDateString("de-DE")}
-      </li>
-    ))}
-  </ul>
-)}
-<p><a href="/news">Alle News ansehen →</a></p>
+<style>
+  .home-grid{display:grid;gap:12px;grid-template-columns:repeat(1,minmax(0,1fr));margin:18px 0 6px;}
+  @media(min-width:860px){.home-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+  .box{border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:16px;background:#fff}
+  .big{font-weight:800;font-size:1.1rem;margin-top:6px}
+  .muted{opacity:.75}
+  .list{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
+  .btn{display:inline-block;padding:8px 10px;border-radius:12px;border:1px solid rgba(0,0,0,.10);background:rgba(0,0,0,.03);text-decoration:none;color:inherit;font-weight:600}
+</style>
 
 </BaseLayout>

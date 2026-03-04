@@ -52,14 +52,14 @@ collections:
       - { label: "Titel", name: "title", widget: "string" }
       - { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
       - { label: "Datum", name: "date", widget: "datetime" }
-      - { label: "Titelbild", name: "cover", widget: "image", required: false }
+      - { label: "Cover", name: "cover", widget: "image", required: false }
       - label: "Bilder"
         name: "images"
         widget: "list"
         fields:
           - { label: "Bild", name: "src", widget: "image" }
           - { label: "Beschreibung", name: "alt", widget: "string", required: false }
-      - { label: "Beschreibung", name: "body", widget: "markdown", required: false }
+      - { label: "Text (optional)", name: "body", widget: "markdown", required: false }
 
   - name: "downloads"
     label: "Downloads"

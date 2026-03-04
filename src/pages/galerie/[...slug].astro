@@ -16,6 +16,9 @@ const title = `${gallery.data.title} – SG Neustadt`;
 const description =
   gallery.data.description ??
   `Fotogalerie: ${gallery.data.title} (${gallery.data.date.toLocaleDateString("de-DE")}).`;
+
+let galleries = [];
+try { galleries = await getCollection("galleries"); } catch { galleries = []; }
 ---
 
 <BaseLayout title={gallery.data.title}>
