@@ -102,31 +102,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       const payload = Object.fromEntries(new FormData(form).entries());
 
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const json = await res.json().catch(() => ({}));
+const res = await fetch("/api/contact", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(payload),
+});
 
 const text = await res.text();
-let json = {};
-try { json = JSON.parse(text); } catch {}
+let dataObj = {};
+try { dataObj = JSON.parse(text); } catch {}
 
-      if (!res.ok || !json.ok) {
-        statusEl.textContent = json.error || "Fehler beim Senden.";
-        return;
-      }
+if (!res.ok || !dataObj.ok) {
+  statusEl.textContent = dataObj.error || text || "Fehler beim Senden.";
+  return;
+}
 
-      form.reset();
-      // re-set startedAt for next message
-      startedAtEl.value = String(Date.now());
+form.reset();
+startedAtEl.value = String(Date.now());
+statusEl.textContent = "Danke! Nachricht wurde gesendet.";
 
-      statusEl.textContent = "Danke! Nachricht wurde gesendet.";
-    } catch (err) {
-      statusEl.textContent = "Fehler. Bitte später erneut versuchen.";
-    }
   });
 </script>
 
