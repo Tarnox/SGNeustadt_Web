@@ -46,28 +46,25 @@ const mergedJsonLdArray = [orgJsonLd, ...jsonLdArray];
 <!DOCTYPE html>
 <html lang="de">
   <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>{title}</title>
+  <title>{title}</title>
+  <meta name="description" content={description} />
 
-<meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
 
-<link rel="canonical" href={`https://sgneustadt.de${Astro.url.pathname}`} />
-
-  <!-- Open Graph (Facebook / WhatsApp / Discord Vorschau) -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:url" content={`https://sgneustadt.de${Astro.url.pathname}`} />
-  <meta property="og:image" content="https://beta.sgneustadt.de/og-image.jpg" />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:secure_url" content={ogImage} />
 
-  <!-- Twitter Preview -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content="https://beta.sgneustadt.de/og-image.jpg" />
-
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="twitter:image" content={ogImage} />
 
   {mergedJsonLd.length > 0 && (
     <script type="application/ld+json" set:html={jsonLdString} />
