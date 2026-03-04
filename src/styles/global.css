@@ -47,10 +47,20 @@ a:hover{opacity:.92}
 }
 
 .card{
+  position:relative
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:var(--r-xl);
   box-shadow:var(--shadow);
+}
+.card::before{
+  content:"";
+  position:absolute;
+  left:14px; right:14px; top:0;
+  height:3px;
+  border-radius:999px;
+  background: linear-gradient(90deg, var(--brand-500), var(--accent-500), var(--gold-500));
+  opacity:.65;
 }
 
 .btn{
@@ -170,6 +180,7 @@ p{margin:10px 0}
   background:#fff;
   border:1px solid var(--border);
   box-shadow: 0 10px 30px rgba(2,6,23,.10);
+  object-fit: cover;
 }
 
 /* Header: farbige “Glow”-Leiste */
@@ -220,3 +231,11 @@ p{margin:10px 0}
 .chip.green{background: color-mix(in oklab, var(--brand-500) 14%, #fff); color: var(--brand-700)}
 .chip.red{background: color-mix(in oklab, var(--accent-500) 12%, #fff); color: var(--accent-700)}
 .chip.gold{background: color-mix(in oklab, var(--gold-500) 16%, #fff); color:#6a4a10}
+
+body{
+  background:
+    radial-gradient(1100px 520px at 12% -10%, rgba(31,74,49,.22), transparent 60%),
+    radial-gradient(900px 420px at 92% -5%, rgba(143,26,41,.16), transparent 55%),
+    radial-gradient(800px 500px at 50% 110%, rgba(224,183,90,.14), transparent 60%),
+    var(--bg);
+}
