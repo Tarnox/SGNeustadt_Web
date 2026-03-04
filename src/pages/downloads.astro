@@ -5,18 +5,19 @@ import { getCollection } from "astro:content";
 const title = "Downloads – SG Neustadt";
 const description = "Formulare, Satzung, Ordnungen und weitere Dokumente der SG Neustadt zum Download.";
 
-let downloads = [];
-try { downloads = await getCollection("downloads"); } catch { downloads = []; }
+let downloadEntries = [];
+try {
+  downloadEntries = await getCollection("downloads");
+} catch {
+  downloadEntries = [];
+}
 
-const downloads = await getCollection("downloads");
-
-const grouped = {};
-
-downloads.forEach(d => {
+const grouped = new Map();
+for (const d of downloadEntries) {
   const cat = d.data.category || "Sonstiges";
-  if(!grouped[cat]) grouped[cat] = [];
-  grouped[cat].push(d);
-});
+  if (!grouped.has(cat)) grouped.set(cat, []);
+  grouped.get(cat).push(d);
+}
 ---
 
 <BaseLayout title="Downloads">

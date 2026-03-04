@@ -49,7 +49,6 @@ const downloads = defineCollection({
 description: z.string().optional(),
     category: z.string(),
     file: z.string(),
-    description: z.string().optional()
   })
 });
 
