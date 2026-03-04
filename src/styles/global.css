@@ -155,3 +155,68 @@ p{margin:10px 0}
 .footer-links{display:flex; flex-wrap:wrap; gap:10px}
 .footer-links a{color:var(--muted); text-decoration:none}
 .footer-links a:hover{color:var(--text)}
+
+
+/* stärkere Markenwirkung */
+:root{
+  --brand-500:#2f6c47;
+  --accent-500:#b11f35;
+  --gold-500:#e0b75a;
+}
+
+/* Logo */
+.brand-logo{
+  width:40px;height:40px;border-radius:14px;
+  background:#fff;
+  border:1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(2,6,23,.10);
+}
+
+/* Header: farbige “Glow”-Leiste */
+.site-header{
+  background:
+    linear-gradient(90deg, rgba(47,108,71,.14), rgba(177,31,53,.10), rgba(224,183,90,.10)),
+    color-mix(in oklab, #fff 88%, transparent);
+}
+.site-header::after{
+  content:"";
+  display:block;
+  height:3px;
+  background: linear-gradient(90deg, var(--brand-500), var(--accent-500), var(--gold-500));
+  opacity:.85;
+}
+
+/* Cards: farbiger Rand beim Hover */
+.card{
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+.card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(2,6,23,.12);
+  border-color: color-mix(in oklab, var(--brand-500) 45%, var(--border));
+}
+
+/* Buttons: mehr “Brand” */
+.btn.primary{
+  background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+}
+.btn.accent{
+  background: linear-gradient(135deg, var(--accent-500), var(--accent-700));
+}
+.btn:hover{transform: translateY(-1px)}
+.btn{transition: transform .12s ease, filter .12s ease}
+
+/* kleine Chips */
+.chip{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.75);
+  color: var(--muted);
+  font-weight:700;
+  font-size:.92rem;
+}
+.chip.green{background: color-mix(in oklab, var(--brand-500) 14%, #fff); color: var(--brand-700)}
+.chip.red{background: color-mix(in oklab, var(--accent-500) 12%, #fff); color: var(--accent-700)}
+.chip.gold{background: color-mix(in oklab, var(--gold-500) 16%, #fff); color:#6a4a10}

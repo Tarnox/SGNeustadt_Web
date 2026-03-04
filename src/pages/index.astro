@@ -21,6 +21,31 @@ const latestNews = news.slice(0, 3);
 <BaseLayout title="Start">
   <h2>Willkommen bei der Schützengesellschaft Neustadt</h2>
 
+<section class="hero card">
+  <div class="hero-text">
+    <div class="chip green">🏹 Training • Gemeinschaft • Tradition</div>
+    <h1>Willkommen bei der SG Neustadt</h1>
+    <p>
+      Infos zu Training, Terminen, News, Galerie und Downloads – alles einfach gepflegt über unser Vereins-CMS.
+    </p>
+    <div class="hero-actions">
+      <a class="btn primary" href="/termine/">Nächste Termine</a>
+      <a class="btn" href="/kontakt/">Kontakt</a>
+    </div>
+  </div>
+
+  <div class="hero-media" aria-hidden="true">
+    <img src="/hero.jpg" alt="" loading="eager" />
+  </div>
+</section>
+
+<section class="tiles">
+  <a class="tile card" href="/news/"><span>📰</span><div><strong>News</strong><div class="muted">Aktuelles aus dem Verein</div></div></a>
+  <a class="tile card" href="/termine/"><span>📅</span><div><strong>Termine</strong><div class="muted">Wettkämpfe & Veranstaltungen</div></div></a>
+  <a class="tile card" href="/galerie/"><span>🖼️</span><div><strong>Galerie</strong><div class="muted">Bilder & Eindrücke</div></div></a>
+  <a class="tile card" href="/downloads/"><span>📄</span><div><strong>Downloads</strong><div class="muted">PDFs & Dokumente</div></div></a>
+</section>
+
 <section class="home-grid">
   <div class="box">
     <h2>Nächster Termin</h2>
@@ -61,6 +86,41 @@ const latestNews = news.slice(0, 3);
 </section>
 
 <style>
+
+  .hero{
+    display:grid;
+    gap:16px;
+    padding:18px;
+    overflow:hidden;
+    position:relative;
+  }
+  @media(min-width:920px){
+    .hero{grid-template-columns: 1.1fr .9fr; align-items:center; padding:22px;}
+  }
+  .hero-text p{color:var(--muted); max-width:58ch}
+  .hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+  .hero-media{
+    border-radius:16px;
+    border:1px solid var(--border);
+    background: rgba(2,6,23,.03);
+    overflow:hidden;
+    min-height:220px;
+  }
+  .hero-media img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    transform: scale(1.02);
+  }
+
+<style>
+  .tiles{display:grid;gap:12px;margin:14px 0}
+  @media(min-width:860px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr));}}
+  .tile{padding:14px;display:flex;gap:12px;align-items:center;text-decoration:none}
+  .tile span{font-size:22px}
+  .tile .muted{opacity:.75;font-size:.92rem;margin-top:2px}
+</style>
+
   .home-grid{display:grid;gap:12px;grid-template-columns:repeat(1,minmax(0,1fr));margin:18px 0 6px;}
   @media(min-width:860px){.home-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
   .box{border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:16px;background:#fff}
