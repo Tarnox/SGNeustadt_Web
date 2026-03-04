@@ -5,93 +5,61 @@ backend:
   base_url: https://beta.sgneustadt.de
   auth_endpoint: api/auth
 
-media_folder: public/uploads
-public_folder: /uploads
+media_folder: "public/uploads"
+public_folder: "/uploads"
 
 collections:
-  - name: pages
-    label: Seiten
-    folder: src/content/pages
+  - name: "pages"
+    label: "Seiten"
+    folder: "src/content/pages"
     create: true
     slug: "{{slug}}"
     fields:
-  - { label: "Titel", name: "title", widget: "string" }
-  - { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
-  - { label: "Inhalt", name: "body", widget: "markdown" }
+      - { label: "Titel", name: "title", widget: "string" }
+      - { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
+      - { label: "Inhalt", name: "body", widget: "markdown" }
 
-  - name: events
-    label: Termine
-    folder: src/content/events
+  - name: "events"
+    label: "Termine"
+    folder: "src/content/events"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - label: Titel
-        name: title
-        widget: string
-      - label: Beginn
-        name: start
-        widget: datetime
-      - label: Ende
-        name: end
-        widget: datetime
-        required: false
-      - label: Ort
-        name: location
-        widget: string
-        required: false
-      - label: Beschreibung
-        name: body
-        widget: markdown
-        required: false
+      - { label: "Titel", name: "title", widget: "string" }
+      - { label: "Beginn", name: "start", widget: "datetime" }
+      - { label: "Ende", name: "end", widget: "datetime", required: false }
+      - { label: "Ort", name: "location", widget: "string", required: false }
+      - { label: "Beschreibung", name: "body", widget: "markdown", required: false }
 
-  - name: news
-    label: News
-    folder: src/content/news
+  - name: "news"
+    label: "News"
+    folder: "src/content/news"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - label: Titel
-        name: title
-        widget: string
-- { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
-      - label: Datum
-        name: date
-        widget: datetime
-      - label: Titelbild
-        name: cover
-        widget: image
-        required: false
-      - label: Inhalt
-        name: body
-        widget: markdown
+      - { label: "Titel", name: "title", widget: "string" }
+      - { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
+      - { label: "Datum", name: "date", widget: "datetime" }
+      - { label: "Titelbild", name: "cover", widget: "image", required: false }
+      - { label: "Inhalt", name: "body", widget: "markdown" }
 
-  - name: galleries
-    label: Galerie
-    folder: src/content/galleries
+  - name: "galleries"
+    label: "Galerie"
+    folder: "src/content/galleries"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - label: Titel
-        name: title
-        widget: string
-- { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
-      - label: Datum
-        name: date
-        widget: datetime
-      - label: Titelbild
-        name: cover
-        widget: image
-        required: false
-      - label: Bilder
-        name: images
-        widget: list
+      - { label: "Titel", name: "title", widget: "string" }
+      - { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
+      - { label: "Datum", name: "date", widget: "datetime" }
+      - { label: "Titelbild", name: "cover", widget: "image", required: false }
+      - label: "Bilder"
+        name: "images"
+        widget: "list"
         fields:
-          - { label: Bild, name: src, widget: image }
-          - { label: Beschreibung, name: alt, widget: string, required: false }
-      - label: Beschreibung
-        name: body
-        widget: markdown
-        required: false
+          - { label: "Bild", name: "src", widget: "image" }
+          - { label: "Beschreibung", name: "alt", widget: "string", required: false }
+      - { label: "Beschreibung", name: "body", widget: "markdown", required: false }
 
   - name: "downloads"
     label: "Downloads"
@@ -102,5 +70,9 @@ collections:
       - { label: "Titel", name: "title", widget: "string" }
       - { label: "Kategorie", name: "category", widget: "string", default: "Allgemein" }
       - { label: "Beschreibung", name: "description", widget: "text", required: false }
-      - { label: "Datei (PDF)", name: "file", widget: "file", media_folder: "/public/uploads/downloads", public_folder: "/uploads/downloads" }
+      - label: "Datei (PDF)"
+        name: "file"
+        widget: "file"
+        media_folder: "/public/uploads/downloads"
+        public_folder: "/uploads/downloads"
       - { label: "Datum", name: "date", widget: "datetime", required: false }
