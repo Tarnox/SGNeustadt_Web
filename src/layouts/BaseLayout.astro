@@ -69,13 +69,9 @@ const mergedJsonLdArray = [orgJsonLd, ...jsonLdArray];
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-{mergedJsonLd.length > 0 && (
-  <script type="application/ld+json" set:html={jsonLdString} />
-)}
-
-{jsonLdArray.map((obj) => (
-  <script type="application/ld+json" set:html={JSON.stringify(obj)} />
-))}
+  {mergedJsonLd.length > 0 && (
+    <script type="application/ld+json" set:html={jsonLdString} />
+  )}
 
 <script type="application/ld+json">
 {
