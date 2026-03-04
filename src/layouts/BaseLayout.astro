@@ -11,22 +11,19 @@ const ogImage = `${origin}/og-image.jpg`;
 
 const ORG_NAME = "Schützenverein SG Neustadt";
 const ORG_LOGO = `${origin}/favicon.svg`;
----
+
 const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "SportsOrganization",
   "name": ORG_NAME,
-  "url": ORG_URL,
+  "url": origin,
   "logo": ORG_LOGO,
-  // optional, wenn ihr es öffentlich wollt:
-  // "email": "beta@sgneustadt.de",
-  // "telephone": "+49 ...",
-  // "address": { "@type": "PostalAddress", "addressLocality": "Neustadt", "addressCountry": "DE" }
 };
-const mergedJsonLdArray = [orgJsonLd, ...jsonLdArray];
----
----
 
+const extraJsonLd = Array.isArray(jsonLd) ? jsonLd : (jsonLd ? [jsonLd] : []);
+const mergedJsonLd = [orgJsonLd, ...extraJsonLd];
+const jsonLdString = JSON.stringify(mergedJsonLd);
+---
 <!DOCTYPE html>
 <html lang="de">
   <head>
