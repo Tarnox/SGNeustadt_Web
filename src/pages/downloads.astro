@@ -3,7 +3,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
 const title = "Downloads – SG Neustadt";
-const description = "Formulare, Satzung, Ordnungen und weitere Dokumente der SG Neustadt.";
+const description =
+  "Formulare, Satzung, Ordnungen und weitere Dokumente der SG Neustadt als PDF.";
 
 let entries = [];
 try {
@@ -12,42 +13,209 @@ try {
   entries = [];
 }
 
-// sort optional: neueste zuerst wenn date vorhanden
+// Sort: neueste zuerst (wenn date vorhanden), sonst Titel
 entries.sort((a, b) => {
   const da = a.data.date ? new Date(a.data.date).getTime() : 0;
   const db = b.data.date ? new Date(b.data.date).getTime() : 0;
-  return db - da;
+  if (db !== da) return db - da;
+  return String(a.data.title).localeCompare(String(b.data.title), "de");
 });
 
-// group by category
+// Gruppieren nach Kategorie
 const grouped = new Map();
 for (const e of entries) {
-  const cat = e.data.category || "Allgemein";
+  const cat = (e.data.category || "Allgemein").trim();
   if (!grouped.has(cat)) grouped.set(cat, []);
   grouped.get(cat).push(e);
+}
+
+// Kategorien stabil sortieren (Allgemein zuerst, dann alphabetisch)
+const cats = Array.from(grouped.keys()).sort((a, b) => {
+  if (a === "Allgemein") return -1;
+  if (b === "Allgemein") return 1;
+  return a.localeCompare(b, "de");
+});
+
+function formatDate(d) {
+  if (!d) return "";
+  try {
+    return new Date(d).toLocaleDateString("de-DE");
+  } catch {
+    return "";
+  }
 }
 ---
 
 <BaseLayout title={title} description={description}>
-  <h1>Downloads</h1>
+  <div class="wrap">
+    <header class="header">
+      <h1>Downloads</h1>
+      <p class="intro">
+        Hier findest du wichtige Dokumente (PDF) rund um den Verein.
+      </p>
+    </header>
 
-  {entries.length === 0 ? (
-    <p>Noch keine Downloads vorhanden.</p>
-  ) : (
-    Array.from(grouped.entries()).map(([cat, items]) => (
-      <section style="margin: 24px 0;">
-        <h2>{cat}</h2>
-        <ul>
-          {items.map((d) => (
-            <li style="margin: 10px 0;">
-              <a href={d.data.file} target="_blank" rel="noreferrer">
-                📄 {d.data.title}
-              </a>
-              {d.data.description && <div style="opacity:.8">{d.data.description}</div>}
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))
-  )}
+    {entries.length === 0 ? (
+      <div class="empty">
+        <p>Noch keine Downloads vorhanden.</p>
+      </div>
+    ) : (
+      <div class="sections">
+        {cats.map((cat) => (
+          <section class="section">
+            <div class="section-head">
+              <h2>{cat}</h2>
+            </div>
+
+            <div class="grid">
+              {grouped.get(cat).map((d) => (
+                <a class="card" href={d.data.file} target="_blank" rel="noreferrer">
+                  <div class="icon" aria-hidden="true">📄</div>
+
+                  <div class="content">
+                    <div class="title-row">
+                      <span class="title">{d.data.title}</span>
+                      {d.data.date && <span class="badge">{formatDate(d.data.date)}</span>}
+                    </div>
+
+                    {d.data.description && (
+                      <div class="desc">{d.data.description}</div>
+                    )}
+
+                    <div class="cta">
+                      <span class="btn">PDF öffnen</span>
+                      <span class="hint">öffnet in neuem Tab</span>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <style>
+    .wrap { max-width: 980px; margin: 0 auto; padding: 28px 16px 56px; }
+    .header h1 { margin: 0 0 6px; }
+    .intro { margin: 0; opacity: .85; }
+
+    .empty {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 14px;
+      background: rgba(0,0,0,.02);
+    }
+
+    .sections { margin-top: 22px; display: grid; gap: 26px; }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .section h2 { margin: 0; font-size: 1.1rem; }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    @media (min-width: 720px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    .card {
+      display: flex;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: white;
+      text-decoration: none;
+      color: inherit;
+      transition: transform .08s ease, box-shadow .08s ease, border-color .08s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0,0,0,.08);
+      border-color: rgba(0,0,0,.14);
+    }
+
+    .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(0,0,0,.04);
+      font-size: 20px;
+      flex: 0 0 auto;
+    }
+
+    .content { min-width: 0; flex: 1 1 auto; }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .title {
+      font-weight: 700;
+      line-height: 1.25;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .badge {
+      font-size: .78rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.06);
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .desc {
+      margin-top: 6px;
+      opacity: .85;
+      font-size: .95rem;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .cta {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.10);
+      background: rgba(0,0,0,.03);
+      font-weight: 600;
+      font-size: .92rem;
+    }
+
+    .hint { font-size: .82rem; opacity: .75; }
+  </style>
 </BaseLayout>
