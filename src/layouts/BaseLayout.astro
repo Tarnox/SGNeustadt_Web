@@ -5,16 +5,28 @@ const {
   jsonLd = null,
 } = Astro.props;
 
-const origin = Astro.url.origin; // z.B. https://beta.sgneustadt.de oder https://sgneustadt.de
+const origin = Astro.url.origin;
 const canonical = `${origin}${Astro.url.pathname}`;
 const ogImage = `${origin}/og-image.jpg`;
 
-// Vereinsdaten (bitte später ggf. anpassen)
 const ORG_NAME = "Schützenverein SG Neustadt";
 const ORG_URL = origin;
 const ORG_LOGO = `${origin}/favicon.svg`;
 
-// JSON-LD: kann Objekt oder Array sein
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SportsOrganization",
+  name: ORG_NAME,
+  url: ORG_URL,
+  logo: ORG_LOGO,
+};
+
+// jsonLd kann Objekt oder Array sein → wir machen immer ein Array daraus
+const extra = Array.isArray(jsonLd) ? jsonLd : (jsonLd ? [jsonLd] : []);
+const mergedJsonLd = [orgJsonLd, ...extra];
+
+// Wir geben alles als EIN JSON-LD Array aus (ein Script)
+const jsonLdString = JSON.stringify(mergedJsonLd);
 ---
 const orgJsonLd = {
   "@context": "https://schema.org",
@@ -56,6 +68,10 @@ const mergedJsonLdArray = [orgJsonLd, ...jsonLdArray];
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+{mergedJsonLd.length > 0 && (
+  <script type="application/ld+json" set:html={jsonLdString} />
+)}
 
 {jsonLdArray.map((obj) => (
   <script type="application/ld+json" set:html={JSON.stringify(obj)} />
