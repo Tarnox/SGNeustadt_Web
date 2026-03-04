@@ -2,19 +2,57 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
+// deine bisherigen Termine-Daten:
 const events = await getCollection("events");
-const now = new Date();
+events.sort((a, b) => a.data.start.getTime() - b.data.start.getTime());
 
-const upcoming = events
-  .filter(e => new Date(e.data.start) >= now)
-  .sort((a, b) => new Date(a.data.start) - new Date(b.data.start));
+// JSON-LD Events bauen
+const origin = Astro.url.origin;
 
-const past = events
-  .filter(e => new Date(e.data.start) < now)
-  .sort((a, b) => new Date(b.data.start) - new Date(a.data.start));
+const eventJsonLd = events.map((e) => {
+  const start = e.data.start instanceof Date ? e.data.start.toISOString() : String(e.data.start);
+  const end = e.data.end ? (e.data.end instanceof Date ? e.data.end.toISOString() : String(e.data.end)) : undefined;
+
+  const obj = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": e.data.title,
+    "startDate": start,
+    ...(end ? { "endDate": end } : {}),
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "url": `${origin}/termine/`, // wenn ihr keine Einzel-Terminseiten habt
+    ...(e.data.location
+      ? {
+          "location": {
+            "@type": "Place",
+            "name": e.data.location
+          }
+        }
+      : {})
+  };
+
+  return obj;
+});
+
+// Optional: zusätzlich ein ItemList Wrapper (hilft manchmal)
+const eventsListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Termine – SG Neustadt",
+  "itemListElement": eventJsonLd.map((ev, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "item": ev
+  }))
+};
 ---
 
-<BaseLayout title="Termine">
+<BaseLayout
+  title="Termine – SG Neustadt"
+  description="Alle Termine und Veranstaltungen des Schützenvereins SG Neustadt."
+  jsonLd={[eventsListJsonLd]}  /* oder jsonLd={eventJsonLd} */
+>
   <h2>Termine</h2>
 
   <h3>Bevorstehend</h3>

@@ -1,10 +1,34 @@
 ---
 const {
   title = "SG Neustadt",
-  description = "Schützenverein SG Neustadt – Informationen zu Training, Veranstaltungen und Vereinsleben."
+  description = "Schützenverein SG Neustadt – Informationen zu Training, Veranstaltungen und Vereinsleben.",
+  jsonLd = null,
 } = Astro.props;
 
-const canonical = `https://sgneustadt.de${Astro.url.pathname}`;
+const origin = Astro.url.origin; // z.B. https://beta.sgneustadt.de oder https://sgneustadt.de
+const canonical = `${origin}${Astro.url.pathname}`;
+const ogImage = `${origin}/og-image.jpg`;
+
+// Vereinsdaten (bitte später ggf. anpassen)
+const ORG_NAME = "Schützenverein SG Neustadt";
+const ORG_URL = origin;
+const ORG_LOGO = `${origin}/favicon.svg`;
+
+// JSON-LD: kann Objekt oder Array sein
+---
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SportsOrganization",
+  "name": ORG_NAME,
+  "url": ORG_URL,
+  "logo": ORG_LOGO,
+  // optional, wenn ihr es öffentlich wollt:
+  // "email": "beta@sgneustadt.de",
+  // "telephone": "+49 ...",
+  // "address": { "@type": "PostalAddress", "addressLocality": "Neustadt", "addressCountry": "DE" }
+};
+const mergedJsonLdArray = [orgJsonLd, ...jsonLdArray];
+---
 ---
 
 <!DOCTYPE html>
@@ -32,6 +56,10 @@ const canonical = `https://sgneustadt.de${Astro.url.pathname}`;
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+{jsonLdArray.map((obj) => (
+  <script type="application/ld+json" set:html={JSON.stringify(obj)} />
+))}
 
 <script type="application/ld+json">
 {
