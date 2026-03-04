@@ -10,22 +10,21 @@ const canonical = `${origin}${Astro.url.pathname}`;
 const ogImage = `${origin}/og-image.jpg`;
 
 const ORG_NAME = "Schützenverein SG Neustadt";
-const ORG_URL = origin;
 const ORG_LOGO = `${origin}/favicon.svg`;
 
 const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "SportsOrganization",
-  name: ORG_NAME,
-  url: ORG_URL,
-  logo: ORG_LOGO,
+  "name": ORG_NAME,
+  "url": origin,
+  "logo": ORG_LOGO,
 };
 
-// jsonLd kann Objekt oder Array sein → wir machen immer ein Array daraus
-const extra = Array.isArray(jsonLd) ? jsonLd : (jsonLd ? [jsonLd] : []);
-const mergedJsonLd = [orgJsonLd, ...extra];
+// jsonLd kann Objekt oder Array sein → normalize
+const extraJsonLd = Array.isArray(jsonLd) ? jsonLd : (jsonLd ? [jsonLd] : []);
+const mergedJsonLd = [orgJsonLd, ...extraJsonLd];
 
-// Wir geben alles als EIN JSON-LD Array aus (ein Script)
+// als JSON-String für <script set:html>
 const jsonLdString = JSON.stringify(mergedJsonLd);
 ---
 const orgJsonLd = {
