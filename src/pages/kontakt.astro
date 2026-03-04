@@ -1,0 +1,91 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Kontakt">
+  <h2>Kontakt</h2>
+
+  <p>Schreib uns eine Nachricht. Wir melden uns zeitnah zurück.</p>
+
+  <form id="contactForm" class="form">
+    <label>
+      Name
+      <input name="name" required minlength="2" />
+    </label>
+
+    <label>
+      E-Mail
+      <input name="email" type="email" required />
+    </label>
+
+    <label>
+      Nachricht
+      <textarea name="message" required minlength="10" rows="6"></textarea>
+    </label>
+
+    <!-- Honeypot (Spam-Schutz): muss leer bleiben -->
+    <div class="hp">
+      <label>
+        Website
+        <input name="website" autocomplete="off" />
+      </label>
+    </div>
+
+    <button type="submit">Absenden</button>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById("contactForm");
+    const statusEl = document.getElementById("status");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      statusEl.textContent = "Sende…";
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        const json = await res.json().catch(() => ({}));
+
+        if (!res.ok || !json.ok) {
+          statusEl.textContent = json.error || "Fehler beim Senden.";
+          return;
+        }
+
+        form.reset();
+        statusEl.textContent = "Danke! Nachricht wurde gesendet.";
+      } catch {
+        statusEl.textContent = "Netzwerkfehler. Bitte später erneut versuchen.";
+      }
+    });
+  </script>
+
+  <style>
+    .form { max-width: 620px; display: grid; gap: 12px; }
+    label { display: grid; gap: 6px; }
+    input, textarea {
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font: inherit;
+    }
+    button {
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .status { margin-top: 6px; }
+
+    /* honeypot verstecken */
+    .hp { position: absolute; left: -9999px; top: -9999px; }
+  </style>
+</BaseLayout>
