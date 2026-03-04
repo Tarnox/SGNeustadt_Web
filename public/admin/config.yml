@@ -93,3 +93,32 @@ collections:
         name: body
         widget: markdown
         required: false
+
+  - name: downloads
+    label: Downloads
+    folder: src/content/downloads
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - label: Titel
+        name: title
+        widget: string
+
+      - label: Kategorie
+        name: category
+        widget: select
+        options:
+          - Mitgliedschaft
+          - Formulare
+          - Satzung & Ordnung
+          - Wettkampf
+          - Sonstiges
+
+      - label: Datei
+        name: file
+        widget: file
+
+      - label: Beschreibung
+        name: description
+        widget: text
+        required: false

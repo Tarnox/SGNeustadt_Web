@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const downloads = await getCollection("downloads");
+
+const grouped = {};
+
+downloads.forEach(d => {
+  const cat = d.data.category || "Sonstiges";
+  if(!grouped[cat]) grouped[cat] = [];
+  grouped[cat].push(d);
+});
+---
+
+<BaseLayout title="Downloads">
+
+<h1>Downloads</h1>
+
+{Object.entries(grouped).map(([category, items]) => (
+
+<section style="margin-bottom:40px;">
+
+<h2>{category}</h2>
+
+<ul style="list-style:none;padding:0">
+
+{items.map(d => (
+
+<li style="margin-bottom:12px">
+
+<a href={d.data.file} target="_blank">
+
+📄 {d.data.title}
+
+</a>
+
+{d.data.description && (
+<p style="margin:4px 0 0;color:#666">
+{d.data.description}
+</p>
+)}
+
+</li>
+
+))}
+
+</ul>
+
+</section>
+
+))}
+
+</BaseLayout>

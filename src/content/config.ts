@@ -40,10 +40,20 @@ const galleries = defineCollection({
   }),
 });
 
+const downloads = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    category: z.string(),
+    file: z.string(),
+    description: z.string().optional()
+  })
+});
+
 export const collections = {
   events,
   news,
   pages,
   galleries,
+  downloads
 };
 
