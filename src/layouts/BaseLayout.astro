@@ -11,21 +11,6 @@ const ogImage = `${origin}/og-image.jpg`;
 
 const ORG_NAME = "Schützenverein SG Neustadt";
 const ORG_LOGO = `${origin}/favicon.svg`;
-
-const orgJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "SportsOrganization",
-  "name": ORG_NAME,
-  "url": origin,
-  "logo": ORG_LOGO,
-};
-
-// jsonLd kann Objekt oder Array sein → normalize
-const extraJsonLd = Array.isArray(jsonLd) ? jsonLd : (jsonLd ? [jsonLd] : []);
-const mergedJsonLd = [orgJsonLd, ...extraJsonLd];
-
-// als JSON-String für <script set:html>
-const jsonLdString = JSON.stringify(mergedJsonLd);
 ---
 const orgJsonLd = {
   "@context": "https://schema.org",
