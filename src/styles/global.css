@@ -1,19 +1,26 @@
 :root{
+  --bg: #f6f7f8;
+  --card: rgba(255,255,255,.85);
+  --text: #0f172a;
+  --muted: #475569;
+  --border: rgba(15,23,42,.10);
+
+  /* Vereinsfarben */
+  --brand-500:#2f6c47;   /* Grün */
+  --brand-700:#1f4a31;
+  --accent-500:#8f1a29;  /* Weinrot */
+  --accent-700:#6e121e;
+  --gold-500:#e0b75a;    /* Gold */
+
   /* Brand (an altes Farbbild angelehnt: Grün/Rot/Gold) */
   --brand-900:#0b1a12;     /* sehr dunkel (Header/Footer) */
   --brand-800:#10261a;
-  --brand-700:#163322;
   --brand-600:#1f4a31;     /* Primär-Grün */
-  --accent-700:#7b1220;    /* Weinrot */
   --accent-600:#8f1a29;
   --gold-600:#c9a24a;      /* Gold */
 
   /* Neutrals */
-  --bg:#f6f7f9;
   --surface:#ffffff;
-  --text:#0f172a;
-  --muted:#475569;
-  --border:rgba(15, 23, 42, .10);
   --shadow: 0 10px 30px rgba(2, 6, 23, .08);
 
   /* Radius/Spacing */
@@ -29,13 +36,12 @@
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
-  margin:0;
-  font-family:var(--font);
-  color:var(--text);
-  background: radial-gradient(1200px 500px at 10% -10%, rgba(31,74,49,.18), transparent 60%),
-              radial-gradient(900px 400px at 90% 0%, rgba(143,26,41,.12), transparent 55%),
-              var(--bg);
-  line-height:1.6;
+  color: var(--text);
+  background:
+    radial-gradient(1100px 520px at 12% -10%, rgba(31,74,49,.20), transparent 60%),
+    radial-gradient(900px 420px at 92% -5%, rgba(143,26,41,.14), transparent 55%),
+    radial-gradient(800px 500px at 50% 110%, rgba(224,183,90,.12), transparent 60%),
+    var(--bg);
 }
 
 a{color:inherit}
@@ -176,11 +182,12 @@ p{margin:10px 0}
 
 /* Logo */
 .brand-logo{
-  width:40px;height:40px;border-radius:14px;
-  background:#fff;
-  border:1px solid var(--border);
-  box-shadow: 0 10px 30px rgba(2,6,23,.10);
-  object-fit: cover;
+  width:42px;
+  height:42px;
+  padding:4px;
+  background:white;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,0.08);
 }
 
 /* Header: farbige “Glow”-Leiste */
@@ -197,27 +204,56 @@ p{margin:10px 0}
   opacity:.85;
 }
 
-/* Cards: farbiger Rand beim Hover */
+/* Card / Buttons / Chips */
 .card{
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(2,6,23,.07);
+  position:relative;
+  overflow:hidden;
   transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
 }
 .card:hover{
   transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(2,6,23,.12);
-  border-color: color-mix(in oklab, var(--brand-500) 45%, var(--border));
+  box-shadow: 0 18px 46px rgba(2,6,23,.12);
+  border-color: color-mix(in oklab, var(--brand-500) 35%, var(--border));
+}
+.card::before{
+  content:"";
+  position:absolute;
+  left:16px; right:16px; top:0;
+  height:3px;
+  border-radius:999px;
+  background: linear-gradient(90deg, var(--brand-500), var(--accent-500), var(--gold-500));
+  opacity:.65;
 }
 
-/* Buttons: mehr “Brand” */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 14px;
+  border-radius: 999px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.9);
+  color: var(--text);
+  font-weight:800;
+  text-decoration:none;
+  transition: transform .12s ease, filter .12s ease;
+}
+.btn:hover{ transform: translateY(-1px); filter: brightness(0.98); }
 .btn.primary{
+  border: none;
+  color: white;
   background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
 }
 .btn.accent{
+  border: none;
+  color: white;
   background: linear-gradient(135deg, var(--accent-500), var(--accent-700));
 }
-.btn:hover{transform: translateY(-1px)}
-.btn{transition: transform .12s ease, filter .12s ease}
 
-/* kleine Chips */
 .chip{
   display:inline-flex; align-items:center; gap:8px;
   padding:6px 10px;
@@ -225,17 +261,9 @@ p{margin:10px 0}
   border:1px solid var(--border);
   background: rgba(255,255,255,.75);
   color: var(--muted);
-  font-weight:700;
+  font-weight:800;
   font-size:.92rem;
 }
 .chip.green{background: color-mix(in oklab, var(--brand-500) 14%, #fff); color: var(--brand-700)}
 .chip.red{background: color-mix(in oklab, var(--accent-500) 12%, #fff); color: var(--accent-700)}
 .chip.gold{background: color-mix(in oklab, var(--gold-500) 16%, #fff); color:#6a4a10}
-
-body{
-  background:
-    radial-gradient(1100px 520px at 12% -10%, rgba(31,74,49,.22), transparent 60%),
-    radial-gradient(900px 420px at 92% -5%, rgba(143,26,41,.16), transparent 55%),
-    radial-gradient(800px 500px at 50% 110%, rgba(224,183,90,.14), transparent 60%),
-    var(--bg);
-}

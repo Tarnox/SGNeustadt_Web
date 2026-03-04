@@ -2,148 +2,195 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-let events = [];
-let news = [];
+const events = await getCollection("events");
+events.sort((a, b) => a.data.start.getTime() - b.data.start.getTime());
 
-try { events = await getCollection("events"); } catch { events = []; }
-try { news = await getCollection("news"); } catch { news = []; }
-
-// Nächster Termin
-events.sort((a,b) => a.data.start.getTime() - b.data.start.getTime());
 const now = new Date();
-const nextEvent = events.find(e => e.data.start >= now) ?? null;
+const nextEvent = events.find((e) => e.data.start >= now) ?? null;
 
-// Neueste News (max 3)
-news.sort((a,b) => b.data.date.getTime() - a.data.date.getTime());
-const latestNews = news.slice(0, 3);
+const news = await getCollection("news");
+news.sort((a, b) => (b.data.date?.getTime?.() ?? 0) - (a.data.date?.getTime?.() ?? 0));
+const latestNews = news.slice(0, 5);
 ---
 
-<BaseLayout title="Start">
-  <h2>Willkommen bei der Schützengesellschaft Neustadt</h2>
+<BaseLayout
+  title="SG Neustadt – Schützengesellschaft"
+  description="Schützenverein SG Neustadt – Training, Termine, News, Galerie und Downloads."
+>
+  <!-- HERO -->
+  <section class="hero card">
+    <div class="hero-text">
+      <div class="chip green">🏹 Training • Gemeinschaft • Tradition</div>
+      <h1>Schützengesellschaft Neustadt</h1>
+      <p>
+        Willkommen bei der SG Neustadt. Hier findest du aktuelle News, anstehende Termine,
+        Bilder aus dem Vereinsleben und wichtige Dokumente als Download.
+      </p>
 
-<section class="hero card">
-  <div class="hero-text">
-    <h1>Willkommen bei der SG Neustadt</h1>
-    <p>
-      Infos zu Training, Terminen, News, Galerie und Downloads – alles einfach gepflegt über unser Vereins-CMS.
-    </p>
-    <div class="hero-actions">
-      <a class="btn primary" href="/kontakt/">Kontakt</a>
-    </div>
-  </div>
-
-  <div class="hero-media" aria-hidden="true">
-    <img src="/hero.jpg" alt="" loading="eager" />
-    <div class="hero-overlay"></div>
-  </div>
-</section>
-
-<section class="tiles">
-  <a class="tile card" href="/news/"><span>📰</span><div><strong>News</strong><div class="muted">Aktuelles aus dem Verein</div></div></a>
-  <a class="tile card" href="/termine/"><span>📅</span><div><strong>Termine</strong><div class="muted">Wettkämpfe & Veranstaltungen</div></div></a>
-  <a class="tile card" href="/galerie/"><span>🖼️</span><div><strong>Galerie</strong><div class="muted">Bilder & Eindrücke</div></div></a>
-  <a class="tile card" href="/downloads/"><span>📄</span><div><strong>Downloads</strong><div class="muted">PDFs & Dokumente</div></div></a>
-</section>
-
-<section class="home-grid">
-  <div class="box">
-    <h2>Nächster Termin</h2>
-    {nextEvent ? (
-      <div>
-        <div class="big">{nextEvent.data.title}</div>
-        <div class="muted">
-          {nextEvent.data.start.toLocaleString("de-DE")}
-          {nextEvent.data.location && <> · {nextEvent.data.location}</>}
-        </div>
-        <p style="margin-top:10px;">
-          <a class="btn" href="/termine/">Alle Termine</a>
-        </p>
+      <div class="hero-actions">
+        <a class="btn primary" href="/termine/">Nächste Termine</a>
+        <a class="btn" href="/news/">Neueste News</a>
+        <a class="btn accent" href="/kontakt/">Kontakt</a>
       </div>
-    ) : (
-      <p class="muted">Aktuell sind keine kommenden Termine eingetragen.</p>
-    )}
-  </div>
+    </div>
 
-  <div class="box">
-    <h2>Neueste News</h2>
-    {latestNews.length === 0 ? (
-      <p class="muted">Noch keine News vorhanden.</p>
-    ) : (
-      <ul class="list">
-        {latestNews.map(p => (
-          <li>
-            <a href={`/news/${p.slug}/`}>{p.data.title}</a>
-            <div class="muted">{p.data.date.toLocaleDateString("de-DE")}</div>
-          </li>
-        ))}
-      </ul>
-    )}
-  </div>
-</section>
+    <div class="hero-media" aria-hidden="true">
+      <img src="/hero.jpg" alt="" loading="eager" />
+      <div class="hero-overlay"></div>
 
-<style>
+      <!-- Watermark Logo -->
+      <img class="hero-logo" src="/logo.png" alt="" loading="eager" />
+    </div>
+  </section>
 
-  .hero{
-    display:grid;
-    gap:16px;
-    padding:18px;
-    overflow:hidden;
-    position:relative;
-  }
-  @media(min-width:920px){
-    .hero{grid-template-columns: 1.1fr .9fr; align-items:center; padding:22px;}
-  }
-  .hero-text p{color:var(--muted); max-width:58ch}
-  .hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-  .hero-media{
-    border-radius:16px;
-    border:1px solid var(--border);
-    background: rgba(2,6,23,.03);
-    overflow:hidden;
-    min-height:220px;
-    position:relative;
- }
-.hero-overlay{
-  position:absolute; inset:0;
-  background:
-    radial-gradient(900px 400px at 20% 20%, rgba(31,74,49,.45), transparent 60%),
-    radial-gradient(900px 400px at 85% 20%, rgba(143,26,41,.35), transparent 55%),
-    linear-gradient(180deg, rgba(11,26,18,.25), rgba(11,26,18,.05));
-  pointer-events:none;
-}
-.hero-media img{
-  width:100%; height:100%;
-  object-fit:cover;
-  display:block;
-  filter: saturate(1.05) contrast(1.05);
-}
+  <!-- QUICK TILES -->
+  <section class="tiles">
+    <a class="tile card" href="/news/">
+      <span class="icon">📰</span>
+      <div>
+        <strong>News</strong>
+        <div class="muted">Aktuelles aus dem Verein</div>
+      </div>
+    </a>
 
-.hero-text{
-  position:relative;
-  padding:12px;
-}
-@media(min-width:920px){
-  .hero-text{
-    background: rgba(255,255,255,.72);
-    border:1px solid var(--border);
-    border-radius:16px;
-    backdrop-filter: blur(10px);
-  }
-}
+    <a class="tile card" href="/termine/">
+      <span class="icon">📅</span>
+      <div>
+        <strong>Termine</strong>
+        <div class="muted">Wettkämpfe & Veranstaltungen</div>
+      </div>
+    </a>
 
-  .tiles{display:grid;gap:12px;margin:14px 0}
-  @media(min-width:860px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr));}}
-  .tile{padding:14px;display:flex;gap:12px;align-items:center;text-decoration:none}
-  .tile span{font-size:22px}
-  .tile .muted{opacity:.75;font-size:.92rem;margin-top:2px}
+    <a class="tile card" href="/galerie/">
+      <span class="icon">🖼️</span>
+      <div>
+        <strong>Galerie</strong>
+        <div class="muted">Bilder & Eindrücke</div>
+      </div>
+    </a>
 
-  .home-grid{display:grid;gap:12px;grid-template-columns:repeat(1,minmax(0,1fr));margin:18px 0 6px;}
-  @media(min-width:860px){.home-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-  .box{border:1px solid rgba(0,0,0,.08);border-radius:16px;padding:16px;background:#fff}
-  .big{font-weight:800;font-size:1.1rem;margin-top:6px}
-  .muted{opacity:.75}
-  .list{list-style:none;padding:0;margin:10px 0 0;display:grid;gap:10px}
-  .btn{display:inline-block;padding:8px 10px;border-radius:12px;border:1px solid rgba(0,0,0,.10);background:rgba(0,0,0,.03);text-decoration:none;color:inherit;font-weight:600}
-</style>
+    <a class="tile card" href="/downloads/">
+      <span class="icon">📄</span>
+      <div>
+        <strong>Downloads</strong>
+        <div class="muted">Dokumente & PDFs</div>
+      </div>
+    </a>
+  </section>
 
+  <!-- HIGHLIGHTS -->
+  <section class="grid">
+    <div class="card pad">
+      <div class="row">
+        <h2>Nächster Termin</h2>
+        <span class="chip gold">📌 Highlight</span>
+      </div>
+
+      {!nextEvent ? (
+        <p class="muted">Aktuell sind keine kommenden Termine eingetragen.</p>
+      ) : (
+        <div class="event">
+          <div class="event-title">{nextEvent.data.title}</div>
+          <div class="muted">
+            {nextEvent.data.start.toLocaleString("de-DE")}
+            {nextEvent.data.location ? ` • ${nextEvent.data.location}` : ""}
+          </div>
+          <div style="margin-top:12px">
+            <a class="btn primary" href="/termine/">Alle Termine</a>
+          </div>
+        </div>
+      )}
+    </div>
+
+    <div class="card pad">
+      <div class="row">
+        <h2>Neueste News</h2>
+        <span class="chip red">🆕 Updates</span>
+      </div>
+
+      {latestNews.length === 0 ? (
+        <p class="muted">Noch keine News vorhanden.</p>
+      ) : (
+        <ul class="news-list">
+          {latestNews.map((post) => (
+            <li>
+              <a href={`/news/${post.slug}/`} class="news-link">
+                <span class="news-title">{post.data.title}</span>
+                {post.data.date && (
+                  <span class="news-date">
+                    {post.data.date.toLocaleDateString("de-DE")}
+                  </span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div style="margin-top:12px">
+        <a class="btn" href="/news/">Alle News</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .hero{display:grid; gap:16px; padding:18px;}
+    @media(min-width:920px){.hero{grid-template-columns: 1.05fr .95fr; align-items:stretch; padding:22px;}}
+    .hero-text p{color:var(--muted); max-width:62ch; margin-top:8px;}
+    .hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;}
+
+    .hero-media{position:relative; border-radius:16px; border:1px solid var(--border); overflow:hidden; min-height:240px;}
+    .hero-media img:first-child{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.05) contrast(1.06);}
+    .hero-overlay{
+      position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(900px 400px at 20% 25%, rgba(31,74,49,.45), transparent 60%),
+        radial-gradient(900px 400px at 85% 20%, rgba(143,26,41,.35), transparent 55%),
+        linear-gradient(180deg, rgba(11,26,18,.25), rgba(11,26,18,.05));
+    }
+    .hero-logo{
+      position:absolute;
+      right:14px;
+      bottom:14px;
+      width:90px;
+      height:90px;
+      object-fit:contain;
+      opacity:.92;
+      filter: drop-shadow(0 14px 30px rgba(2,6,23,.25));
+      border-radius: 18px;
+      padding:10px;
+      background: rgba(255,255,255,.78);
+      border:1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+
+    .tiles{display:grid; gap:12px; margin:14px 0 18px;}
+    @media(min-width:860px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr));}}
+    .tile{padding:14px; display:flex; gap:12px; align-items:center; text-decoration:none; color:inherit;}
+    .tile .icon{font-size:22px}
+    .tile .muted{opacity:.78; font-size:.92rem; margin-top:2px}
+
+    .grid{display:grid; gap:14px;}
+    @media(min-width:920px){.grid{grid-template-columns: 1.2fr .8fr;}}
+    .pad{padding:18px;}
+    .row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+    h1{margin:10px 0 0}
+    h2{margin:0}
+    .muted{color:var(--muted)}
+    .event{margin-top:10px}
+    .event-title{font-weight:900; font-size:1.05rem; margin-bottom:4px}
+
+    .news-list{list-style:none; padding:0; margin:10px 0 0; display:grid; gap:8px;}
+    .news-link{
+      display:flex; justify-content:space-between; gap:10px;
+      text-decoration:none; color:inherit;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.55);
+    }
+    .news-link:hover{border-color: color-mix(in oklab, var(--accent-500) 30%, var(--border));}
+    .news-title{font-weight:900}
+    .news-date{color:var(--muted); font-weight:800; font-size:.92rem; white-space:nowrap}
+  </style>
 </BaseLayout>
