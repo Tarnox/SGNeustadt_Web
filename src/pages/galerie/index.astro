@@ -4,38 +4,44 @@ import { getCollection } from "astro:content";
 
 let galleries = [];
 try { galleries = await getCollection("galleries"); } catch { galleries = []; }
-
 galleries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+function fmt(d){ return d.toLocaleDateString("de-DE", { dateStyle: "medium" }); }
 ---
 <BaseLayout title="Galerie – SG Neustadt" description="Bilder und Eindrücke aus dem Vereinsleben.">
-  <h1>Galerie</h1>
+  <div class="page">
+    <header class="page-head">
+      <div class="lead">
+        <h1 class="m0">Galerie</h1>
+        <p class="m0">Bilder & Eindrücke aus dem Vereinsleben der SG Neustadt.</p>
+      </div>
+      <span class="badge">📷 Fotos</span>
+    </header>
 
-  {galleries.length === 0 ? (
-    <p>Noch keine Galerien vorhanden.</p>
-  ) : (
-    <div class="grid">
-      {galleries.map(g => (
-        <a class="card" href={`/galerie/${g.slug}/`}>
-          <div class="thumb">
-            {g.data.cover ? <img src={g.data.cover} alt={g.data.title} loading="lazy" /> : <div class="ph">📷</div>}
-          </div>
-          <div class="meta">
-            <strong>{g.data.title}</strong>
-            <div class="date">{g.data.date.toLocaleDateString("de-DE")}</div>
-          </div>
-        </a>
-      ))}
-    </div>
-  )}
-
-  <style>
-    .grid{display:grid;gap:12px;grid-template-columns:repeat(1,minmax(0,1fr));}
-    @media(min-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
-    .card{border:1px solid rgba(0,0,0,.08);border-radius:16px;overflow:hidden;text-decoration:none;color:inherit;background:#fff}
-    .thumb{aspect-ratio:16/9;background:rgba(0,0,0,.03);display:grid;place-items:center}
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .ph{font-size:24px;opacity:.7}
-    .meta{padding:12px}
-    .date{opacity:.75;font-size:.9rem;margin-top:4px}
-  </style>
+    {galleries.length === 0 ? (
+      <section class="card card-pad">
+        <p class="m0">Noch keine Galerien vorhanden.</p>
+      </section>
+    ) : (
+      <div class="grid">
+        {galleries.map((g) => (
+          <a class="card" href={`/galerie/${g.slug}/`} style="text-decoration:none; overflow:hidden;">
+            <div style="aspect-ratio:16/9; background: rgba(0,0,0,.04); display:grid; place-items:center;">
+              {g.data.cover ? (
+                <img src={g.data.cover} alt={g.data.title} loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;" />
+              ) : (
+                <div style="font-size:28px;opacity:.7;">📷</div>
+              )}
+            </div>
+            <div class="card-pad">
+              <strong>{g.data.title}</strong>
+              <div style="margin-top:6px;">
+                <span class="badge">{g.data.date.toLocaleDateString("de-DE")}</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
 </BaseLayout>

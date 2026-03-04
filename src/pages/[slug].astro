@@ -21,7 +21,15 @@ const description =
   "Schützenverein SG Neustadt – Informationen zu Training, Veranstaltungen und Vereinsleben.";
 ---
 
-<BaseLayout title={page.data.title}>
-  <h2>{page.data.title}</h2>
-  <Content />
+<BaseLayout title={page.data.title} description={page.data.description ?? undefined}>
+  <div class="page page-narrow">
+    <header class="page-head">
+      <h1>{page.data.title}</h1>
+      {page.data.description && <p>{page.data.description}</p>}
+    </header>
+
+    <article class="card panel prose">
+      <Content />
+    </article>
+  </div>
 </BaseLayout>

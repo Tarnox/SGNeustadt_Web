@@ -7,19 +7,39 @@ posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 const title = "News – SG Neustadt";
 const description = "Aktuelle Neuigkeiten, Berichte und Informationen vom Schützenverein SG Neustadt.";
+
+function fmt(d) {
+  return d.toLocaleDateString("de-DE", { dateStyle: "medium" });
+}
 ---
+<BaseLayout title={title} description={description}>
+  <div class="page">
+    <header class="page-head">
+      <div class="lead">
+        <h1 class="m0">News</h1>
+        <p class="m0">Aktuelle Neuigkeiten, Berichte und Informationen aus dem Vereinsleben.</p>
+      </div>
+      <a class="btn" href="/termine/">Zu den Terminen</a>
+    </header>
 
-<BaseLayout title="News">
-  <h2>News</h2>
-
-  {posts.length === 0 ? <p>Noch keine Beiträge.</p> : (
-    <ul>
-      {posts.map(p => (
-        <li>
-          <a href={`/news/${p.slug}/`}><strong>{p.data.title}</strong></a><br />
-          {p.data.date.toLocaleDateString("de-DE")}
-        </li>
-      ))}
-    </ul>
-  )}
+    {posts.length === 0 ? (
+      <section class="card card-pad">
+        <p class="m0">Noch keine Beiträge.</p>
+      </section>
+    ) : (
+      <div style="display:grid; gap:10px;">
+        {posts.map((p) => (
+          <a class="row" href={`/news/${p.slug}/`} style="text-decoration:none;">
+            <div class="meta">
+              <strong>{p.data.title}</strong>
+              <div class="sub">{p.data.date.toLocaleDateString("de-DE")}</div>
+            </div>
+            <div class="right">
+              <span class="badge">📰 Beitrag</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
 </BaseLayout>

@@ -20,14 +20,25 @@ const description =
   "Neuigkeiten vom Schützenverein SG Neustadt.";
 ---
 
-<BaseLayout title={post.data.title} description={description}>
-  <p><a href="/news">← Zurück zu News</a></p>
-  <h2>{post.data.title}</h2>
-  <p>{post.data.date.toLocaleDateString("de-DE")}</p>
+<BaseLayout title={title} description={description}>
+  <div class="page">
+    <header class="page-head">
+      <div class="lead">
+        <a class="btn" href="/news/">← Zurück</a>
+        <h1 class="mt12">{post.data.title}</h1>
+        <p class="m0">{post.data.date.toLocaleDateString("de-DE")}</p>
+      </div>
+      <span class="badge">SG Neustadt</span>
+    </header>
 
-  {post.data.cover && (
-    <p><img src={post.data.cover} alt="" style="max-width:100%;border-radius:12px;" /></p>
-  )}
+    {post.data.cover && (
+      <section class="card" style="overflow:hidden; border-radius: var(--r-lg);">
+        <img src={post.data.cover} alt="" loading="lazy" style="display:block;width:100%;height:auto;" />
+      </section>
+    )}
 
-  <Content />
+    <section class="card card-pad mt16">
+      <Content />
+    </section>
+  </div>
 </BaseLayout>

@@ -29,45 +29,56 @@ const jsonLdString = JSON.stringify(mergedJsonLd);
 
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>{title}</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
 
-    <!-- OpenGraph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={ogImage} />
-    <meta property="og:image:secure_url" content={ogImage} />
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+  <!-- Theme / UI -->
+  <meta name="theme-color" content="#2f6c47" />
+  <meta name="color-scheme" content="light" />
 
-    <!-- JSON-LD -->
-    {mergedJsonLd.length > 0 && (
-      <script type="application/ld+json" set:html={jsonLdString} />
-    )}
-  </head>
+  <!-- Robots (Default: index,follow – kann bei Bedarf pro Seite überschrieben werden) -->
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SG Neustadt" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:secure_url" content={ogImage} />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <!-- JSON-LD -->
+  {mergedJsonLd.length > 0 && (
+    <script type="application/ld+json" set:html={jsonLdString} />
+  )}
+</head>
 
   <body>
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="/">
 <img
+  src="/logo.png"
+  alt="Schützengesellschaft Neustadt"
   class="brand-logo"
-  src="/logo.svg"
-  alt="SG Neustadt"
-  width="40"
-  height="40"
-  loading="eager"
 />
           <span>
             SG Neustadt
@@ -75,29 +86,89 @@ const jsonLdString = JSON.stringify(mergedJsonLd);
           </span>
         </a>
 
-        <nav class="nav" aria-label="Hauptnavigation">
-          <a href="/" class={Astro.url.pathname === "/" ? "active" : ""}>Start</a>
-          <a href="/news/" class={Astro.url.pathname.startsWith("/news") ? "active" : ""}>News</a>
-          <a href="/termine/" class={Astro.url.pathname.startsWith("/termine") ? "active" : ""}>Termine</a>
-          <a href="/galerie/" class={Astro.url.pathname.startsWith("/galerie") ? "active" : ""}>Galerie</a>
-          <a href="/downloads/" class={Astro.url.pathname.startsWith("/downloads") ? "active" : ""}>Downloads</a>
+<nav class="nav" aria-label="Hauptnavigation">
+  <button
+    class="nav-toggle"
+    type="button"
+    aria-controls="nav-links"
+    aria-expanded="false"
+  >
+    <span class="sr-only">Menü öffnen</span>
+    ☰
+  </button>
 
-          <div class="dropdown" id="verein-dd" aria-expanded="false">
-            <button type="button" aria-haspopup="true" aria-controls="verein-menu">
-              Verein <span aria-hidden="true">&#9662;</span>
-            </button>
-            <div class="menu" id="verein-menu" role="menu">
-              <a href="/vorstand/" role="menuitem">Der Vorstand</a>
-              <a href="/vereinsgeschichte/" role="menuitem">Vereinsgeschichte</a>
-              <a href="/oeffnungszeiten/" role="menuitem">Öffnungszeiten</a>
-              <a href="/vereinsbeitraege/" role="menuitem">Vereinsbeiträge</a>
-              <a href="/gesetz-aenderung-waffenaufbewahrung/" role="menuitem">Gesetzänderung Waffenaufbewahrung</a>
-              <a href="/datenschutz/" role="menuitem">Datenschutz</a>
-              <a href="/impressum/" role="menuitem">Impressum</a>
-              <a href="/kontakt/" role="menuitem">Kontakt</a>
-            </div>
-          </div>
-        </nav>
+  <div class="nav-links" id="nav-links">
+    <a href="/" class={Astro.url.pathname === "/" ? "active" : ""}>Start</a>
+    <a href="/news/" class={Astro.url.pathname.startsWith("/news") ? "active" : ""}>News</a>
+    <a href="/termine/" class={Astro.url.pathname.startsWith("/termine") ? "active" : ""}>Termine</a>
+    <a href="/galerie/" class={Astro.url.pathname.startsWith("/galerie") ? "active" : ""}>Galerie</a>
+    <a href="/downloads/" class={Astro.url.pathname.startsWith("/downloads") ? "active" : ""}>Downloads</a>
+
+    <div class="dropdown" id="verein-dd">
+      <button
+        type="button"
+        class="dropbtn"
+        aria-haspopup="true"
+        aria-controls="verein-menu"
+        aria-expanded="false"
+      >
+        Verein <span aria-hidden="true">▾</span>
+      </button>
+
+      <div class="menu" id="verein-menu" role="menu">
+        <a href="/vorstand/" role="menuitem">Der Vorstand</a>
+        <a href="/vereinsgeschichte/" role="menuitem">Vereinsgeschichte</a>
+        <a href="/oeffnungszeiten/" role="menuitem">Öffnungszeiten</a>
+        <a href="/vereinsbeitraege/" role="menuitem">Vereinsbeiträge</a>
+        <a href="/gesetz-aenderung-waffenaufbewahrung/" role="menuitem">Gesetzänderung Waffenaufbewahrung</a>
+        <a href="/datenschutz/" role="menuitem">Datenschutz</a>
+        <a href="/impressum/" role="menuitem">Impressum</a>
+        <a href="/kontakt/" role="menuitem">Kontakt</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script is:inline>
+  // Mobile menu toggle
+  const toggle = document.querySelector(".nav-toggle");
+  const links = document.getElementById("nav-links");
+
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", open ? "false" : "true");
+    links?.classList.toggle("open", !open);
+  });
+
+  // Dropdown robust
+  const dd = document.getElementById("verein-dd");
+  const btn = dd?.querySelector(".dropbtn");
+
+  function closeDropdown() {
+    dd?.setAttribute("data-open", "false");
+    btn?.setAttribute("aria-expanded", "false");
+  }
+  function toggleDropdown() {
+    const open = dd?.getAttribute("data-open") === "true";
+    dd?.setAttribute("data-open", open ? "false" : "true");
+    btn?.setAttribute("aria-expanded", open ? "false" : "true");
+  }
+
+  btn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleDropdown();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!dd) return;
+    if (!dd.contains(e.target)) closeDropdown();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeDropdown();
+  });
+</script>
       </div>
     </header>
 
