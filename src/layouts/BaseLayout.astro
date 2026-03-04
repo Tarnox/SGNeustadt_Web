@@ -1,4 +1,5 @@
 ---
+import "../styles/global.css";
 const {
   title = "SG Neustadt",
   description = "Schützenverein SG Neustadt – Informationen zu Training, Veranstaltungen und Vereinsleben.",
@@ -24,88 +25,58 @@ const extraJsonLd = Array.isArray(jsonLd) ? jsonLd : (jsonLd ? [jsonLd] : []);
 const mergedJsonLd = [orgJsonLd, ...extraJsonLd];
 const jsonLdString = JSON.stringify(mergedJsonLd);
 ---
-<!DOCTYPE html>
-<html lang="de">
-  <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/">
+      <span class="brand-badge" aria-hidden="true"></span>
+      <span>
+        SG Neustadt
+        <small>seit 1485 e.V.</small>
+      </span>
+    </a>
 
-  <title>{title}</title>
-  <meta name="description" content={description} />
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="/" class={Astro.url.pathname === "/" ? "active" : ""}>Start</a>
+      <a href="/news/" class={Astro.url.pathname.startsWith("/news") ? "active" : ""}>News</a>
+      <a href="/termine/" class={Astro.url.pathname.startsWith("/termine") ? "active" : ""}>Termine</a>
+      <a href="/galerie/" class={Astro.url.pathname.startsWith("/galerie") ? "active" : ""}>Galerie</a>
+      <a href="/downloads/" class={Astro.url.pathname.startsWith("/downloads") ? "active" : ""}>Downloads</a>
 
-  <link rel="canonical" href={canonical} />
+      <div class="dropdown" id="verein-dd" aria-expanded="false">
+        <button type="button" aria-haspopup="true" aria-controls="verein-menu">
+          Verein ▾
+        </button>
+        <div class="menu" id="verein-menu" role="menu">
+          <a href="/vorstand/" role="menuitem">Der Vorstand</a>
+          <a href="/vereinsgeschichte/" role="menuitem">Vereinsgeschichte</a>
+          <a href="/oeffnungszeiten/" role="menuitem">Öffnungszeiten</a>
+          <a href="/vereinsbeitraege/" role="menuitem">Vereinsbeiträge</a>
+          <a href="/datenschutz/" role="menuitem">Datenschutz</a>
+          <a href="/impressum/" role="menuitem">Impressum</a>
+          <a href="/kontakt/" role="menuitem">Kontakt</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
 
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:url" content={canonical} />
-  <meta property="og:image" content={ogImage} />
-  <meta property="og:image:secure_url" content={ogImage} />
-
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={ogImage} />
-
-  {mergedJsonLd.length > 0 && (
-    <script type="application/ld+json" set:html={jsonLdString} />
-  )}
-    <style>
-      body { font-family: system-ui, sans-serif; margin: 0; background: #f8f9fa; }
-      header { background: #1f2937; color: white; padding: 1rem; }
-      nav a { color: white; margin-right: 1rem; text-decoration: none; }
-      nav a:hover { text-decoration: underline; }
-      main { max-width: 1000px; margin: 2rem auto; padding: 1rem; background: white; }
-      footer { background: #111827; color: #ccc; padding: 2rem; text-align: center; font-size: 0.9rem; }
-      .nav {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropbtn {
-  background: transparent;
-  border: 0;
-  color: white;
-  font: inherit;
-  cursor: pointer;
-  padding: 0;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 1.7rem;
-  left: 0;
-  background: white;
-  min-width: 240px;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25);
-  z-index: 1000;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 0.75rem 1rem;
-  color: #111827;
-  text-decoration: none;
-}
-
-.dropdown-content a:hover {
-  background: #f3f4f6;
-}
-
-.dropdown.open .dropdown-content { display: block; }
-
-    </style>
-  </head>
+<script is:inline>
+  // robustes Dropdown: bleibt offen bis Klick außerhalb / ESC
+  const dd = document.getElementById("verein-dd");
+  const btn = dd?.querySelector("button");
+  function close() { dd?.setAttribute("aria-expanded","false"); }
+  function toggle() {
+    const open = dd.getAttribute("aria-expanded") === "true";
+    dd.setAttribute("aria-expanded", open ? "false" : "true");
+  }
+  btn?.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); toggle(); });
+  document.addEventListener("click", (e) => {
+    if (!dd) return;
+    if (!dd.contains(e.target)) close();
+  });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+</script>
+</head>
   <body>
     <header>
       <h1>Schützengesellschaft Neustadt</h1>
@@ -137,11 +108,17 @@ const jsonLdString = JSON.stringify(mergedJsonLd);
       <slot />
     </main>
 
-    <footer>
-      © {new Date().getFullYear()} SG Neustadt |
-      <a href="/impressum/">Impressum</a> |
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div style="font-weight:800;">© {new Date().getFullYear()} SG Neustadt</div>
+    <div class="footer-links">
+      <a href="/impressum/">Impressum</a>
       <a href="/datenschutz/">Datenschutz</a>
-    </footer>
+      <a href="/kontakt/">Kontakt</a>
+    </div>
+  </div>
+</footer>
+
 <script>
   document.addEventListener("click", (e) => {
     const dropdowns = document.querySelectorAll("[data-dropdown]");
