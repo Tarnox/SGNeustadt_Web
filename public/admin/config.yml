@@ -15,12 +15,9 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - label: Titel
-        name: title
-        widget: string
-      - label: Inhalt
-        name: body
-        widget: markdown
+  - { label: "Titel", name: "title", widget: "string" }
+  - { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
+  - { label: "Inhalt", name: "body", widget: "markdown" }
 
   - name: events
     label: Termine
@@ -56,6 +53,7 @@ collections:
       - label: Titel
         name: title
         widget: string
+- { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
       - label: Datum
         name: date
         widget: datetime
@@ -76,6 +74,7 @@ collections:
       - label: Titel
         name: title
         widget: string
+- { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
       - label: Datum
         name: date
         widget: datetime
@@ -103,7 +102,7 @@ collections:
       - label: Titel
         name: title
         widget: string
-
+- { label: "Beschreibung (SEO)", name: "description", widget: "string", required: false }
       - label: Kategorie
         name: category
         widget: select

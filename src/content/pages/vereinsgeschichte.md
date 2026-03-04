@@ -1,5 +1,6 @@
 ---
 title: Vereinsgeschichte
+description: Unsere Vereinsgeschichte
 ---
 # Vereinsgeschichte
 

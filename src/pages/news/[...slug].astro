@@ -3,15 +3,18 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("news");
-  return posts.map((p) => ({
-    params: { slug: p.slug },
-    props: { post: p },
-  }));
+  const entries = await getCollection("news");
+  return entries.map((e) => ({ params: { slug: e.slug }, props: { entry: e } }));
 }
 
-const { post } = Astro.props;
-const { Content } = await render(post);
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const title = `${entry.data.title} – SG Neustadt`;
+const description =
+  entry.data.description ??
+  entry.data.excerpt ??
+  "Neuigkeiten vom Schützenverein SG Neustadt.";
 ---
 
 <BaseLayout title={post.data.title}>

@@ -2,8 +2,12 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const posts = (await getCollection("news"))
-  .sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
+const title = "News – SG Neustadt";
+const description = "Aktuelle Neuigkeiten, Berichte und Informationen vom Schützenverein SG Neustadt.";
+
+const news = await getCollection("news");
+// optional: sortieren
+news.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <BaseLayout title="News">

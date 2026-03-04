@@ -1,5 +1,6 @@
 ---
 title: Der  Vorstand
+description: Ansprechpartner und Organisation des Schützenvereins SG Neustadt.
 ---
 # Ver Vorstand
 

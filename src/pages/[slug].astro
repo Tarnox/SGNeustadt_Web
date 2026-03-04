@@ -12,6 +12,13 @@ export async function getStaticPaths() {
 
 const { page } = Astro.props;
 const { Content } = await render(page);
+
+
+const title = `${page.data.title} – SG Neustadt`;
+const description =
+  page.data.description ??
+  page.body?.slice(0, 160).replace(/\s+/g, " ").trim() ??
+  "Schützenverein SG Neustadt – Informationen zu Training, Veranstaltungen und Vereinsleben.";
 ---
 
 <BaseLayout title={page.data.title}>

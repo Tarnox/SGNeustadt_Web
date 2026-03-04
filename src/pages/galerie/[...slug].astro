@@ -12,6 +12,10 @@ export async function getStaticPaths() {
 
 const { gallery } = Astro.props;
 const { Content } = await render(gallery);
+const title = `${gallery.data.title} – SG Neustadt`;
+const description =
+  gallery.data.description ??
+  `Fotogalerie: ${gallery.data.title} (${gallery.data.date.toLocaleDateString("de-DE")}).`;
 ---
 
 <BaseLayout title={gallery.data.title}>

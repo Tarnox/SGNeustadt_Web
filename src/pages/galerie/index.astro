@@ -2,8 +2,11 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const galleries = (await getCollection("galleries"))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const title = "Galerie – SG Neustadt";
+const description = "Bilder und Eindrücke aus dem Vereinsleben der SG Neustadt.";
+
+const galleries = await getCollection("galleries");
+galleries.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <BaseLayout title="Galerie">

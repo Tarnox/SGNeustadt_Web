@@ -1,5 +1,6 @@
 ---
 title: Öffnungszeiten
+description: Unsere Trainingszeiten
 ---
 # Öffnungszeiten
 

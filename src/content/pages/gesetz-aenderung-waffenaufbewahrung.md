@@ -1,5 +1,6 @@
 ---
 title: Gesetzänderung Waffenaufbewahrung
+description: Aktuelle änderungenen im Waffenaufbewahrungsgesetz
 ---
 
 # Gesetzänderung Waffenaufbewahrung
