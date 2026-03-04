@@ -31,42 +31,100 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </label>
     </div>
 
+<input type="hidden" name="startedAt" id="startedAt" />
+<input type="hidden" name="powNonce" id="powNonce" />
+<input type="hidden" name="powHash" id="powHash" />
+
     <button type="submit">Absenden</button>
 
     <p id="status" class="status" role="status" aria-live="polite"></p>
   </form>
 
-  <script>
-    const form = document.getElementById("contactForm");
-    const statusEl = document.getElementById("status");
+<script>
+  const form = document.getElementById("contactForm");
+  const statusEl = document.getElementById("status");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  const startedAtEl = document.getElementById("startedAt");
+  const powNonceEl = document.getElementById("powNonce");
+  const powHashEl = document.getElementById("powHash");
+
+  // set start time on page load
+  startedAtEl.value = String(Date.now());
+
+  function toHex(buffer) {
+    return Array.from(new Uint8Array(buffer))
+      .map(b => b.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
+  async function sha256Hex(str) {
+    const enc = new TextEncoder();
+    const buf = await crypto.subtle.digest("SHA-256", enc.encode(str));
+    return toHex(buf);
+  }
+
+  async function computePow({ name, email, message, startedAt }) {
+    // must match server difficulty
+    const prefix = "0000"; // 16-bit difficulty
+    let nonce = 0;
+
+    // simple loop; usually finds a match quickly (few 10k hashes)
+    while (true) {
+      const base = `${name}|${email}|${message}|${startedAt}|${nonce}`;
+      const hash = await sha256Hex(base);
+      if (hash.startsWith(prefix)) {
+        return { powNonce: String(nonce), powHash: hash };
+      }
+      nonce++;
+      // yield every now and then to keep UI responsive
+      if (nonce % 200 === 0) await new Promise(r => setTimeout(r, 0));
+    }
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    statusEl.textContent = "Berechne Anti-Spam…";
+
+    const data = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const { powNonce, powHash } = await computePow({
+        name: String(data.name || "").trim(),
+        email: String(data.email || "").trim(),
+        message: String(data.message || "").trim(),
+        startedAt: String(data.startedAt || "").trim(),
+      });
+
+      powNonceEl.value = powNonce;
+      powHashEl.value = powHash;
+
       statusEl.textContent = "Sende…";
 
-      const data = Object.fromEntries(new FormData(form).entries());
+      const payload = Object.fromEntries(new FormData(form).entries());
 
-      try {
-        const res = await fetch("/api/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
-        });
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-        const json = await res.json().catch(() => ({}));
+      const json = await res.json().catch(() => ({}));
 
-        if (!res.ok || !json.ok) {
-          statusEl.textContent = json.error || "Fehler beim Senden.";
-          return;
-        }
-
-        form.reset();
-        statusEl.textContent = "Danke! Nachricht wurde gesendet.";
-      } catch {
-        statusEl.textContent = "Netzwerkfehler. Bitte später erneut versuchen.";
+      if (!res.ok || !json.ok) {
+        statusEl.textContent = json.error || "Fehler beim Senden.";
+        return;
       }
-    });
-  </script>
+
+      form.reset();
+      // re-set startedAt for next message
+      startedAtEl.value = String(Date.now());
+
+      statusEl.textContent = "Danke! Nachricht wurde gesendet.";
+    } catch (err) {
+      statusEl.textContent = "Fehler. Bitte später erneut versuchen.";
+    }
+  });
+</script>
 
   <style>
     .form { max-width: 620px; display: grid; gap: 12px; }
