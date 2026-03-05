@@ -101,7 +101,7 @@ const jsonLdString = JSON.stringify(mergedJsonLd);
     <a href="/" class={Astro.url.pathname === "/" ? "active" : ""}>Start</a>
     <a href="/news/" class={Astro.url.pathname.startsWith("/news") ? "active" : ""}>News</a>
     <a href="/termine/" class={Astro.url.pathname.startsWith("/termine") ? "active" : ""}>Termine</a>
-    <a href="/galerie/" class={Astro.url.pathname.startsWith("/galerie") ? "active" : ""}>Galerie</a>
+    <a href="/kontakt/" class={Astro.url.pathname.startsWith("/kontakt") ? "active" : "">Kontakt</a>
     <a href="/downloads/" class={Astro.url.pathname.startsWith("/downloads") ? "active" : ""}>Downloads</a>
 
     <div class="dropdown" id="verein-dd">
@@ -121,9 +121,7 @@ const jsonLdString = JSON.stringify(mergedJsonLd);
         <a href="/oeffnungszeiten/" role="menuitem">Öffnungszeiten</a>
         <a href="/vereinsbeitraege/" role="menuitem">Vereinsbeiträge</a>
         <a href="/gesetz-aenderung-waffenaufbewahrung/" role="menuitem">Gesetzänderung Waffenaufbewahrung</a>
-        <a href="/datenschutz/" role="menuitem">Datenschutz</a>
-        <a href="/impressum/" role="menuitem">Impressum</a>
-        <a href="/kontakt/" role="menuitem">Kontakt</a>
+        <a href="/galerie/" role="menuitem"}>Galerie</a>
       </div>
     </div>
   </div>
