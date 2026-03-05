@@ -2,140 +2,61 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-const title = "Downloads – SG Neustadt";
-const description =
-  "Formulare, Satzung, Ordnungen und weitere Dokumente der SG Neustadt als PDF.";
+const entries = await getCollection("downloads");
 
-let entries = [];
-try {
-  entries = await getCollection("downloads");
-} catch {
-  entries = [];
-}
-
-// Sort: neueste zuerst (wenn date vorhanden), sonst Titel
-entries.sort((a, b) => {
-  const da = a.data.date ? new Date(a.data.date).getTime() : 0;
-  const db = b.data.date ? new Date(b.data.date).getTime() : 0;
-  if (db !== da) return db - da;
-  return String(a.data.title).localeCompare(String(b.data.title), "de");
-});
-
-// Gruppieren nach Kategorie
 const grouped = new Map();
+
 for (const e of entries) {
-  const cat = (e.data.category || "Allgemein").trim();
+  const cat = e.data.category || "Allgemein";
   if (!grouped.has(cat)) grouped.set(cat, []);
   grouped.get(cat).push(e);
 }
 
-// Kategorien stabil sortieren (Allgemein zuerst, dann alphabetisch)
-const cats = Array.from(grouped.keys()).sort((a, b) => {
-  if (a === "Allgemein") return -1;
-  if (b === "Allgemein") return 1;
-  return a.localeCompare(b, "de");
-});
-
-function formatDate(d) {
-  if (!d) return "";
-  try {
-    return new Date(d).toLocaleDateString("de-DE");
-  } catch {
-    return "";
-  }
-}
+const cats = Array.from(grouped.keys()).sort();
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title="Downloads – SG Neustadt">
   <div class="page">
-<header class="page-head">
-  <div class="lead">
-    <h1 class="m0">Downloads</h1>
-    <p class="m0">Wichtige Dokumente (PDF) rund um den Verein – sauber nach Kategorien sortiert.</p>
-  </div>
-  <a class="btn" href="/kontakt/">Fehlt ein Dokument?</a>
-</header>
+
+    <header class="page-head">
+      <div class="lead">
+        <h1 class="m0">Downloads</h1>
+        <p class="m0">
+          Wichtige Dokumente (PDF) rund um den Verein – sauber nach Kategorien sortiert.
+        </p>
+      </div>
+
+      <a class="btn" href="/kontakt/">Fehlt ein Dokument?</a>
+    </header>
 
     {entries.length === 0 ? (
-      <div class="empty">
-        <p>Noch keine Downloads vorhanden.</p>
-      </div>
+      <section class="card card-pad">
+        <p class="m0">Noch keine Downloads vorhanden.</p>
+      </section>
     ) : (
-      <div class="section">
-        {cats.map((cat) => (
-          <section class="section">
-            <div class="section-head">
-              <h2>{cat}</h2>
-            </div>
+      cats.map((cat) => (
+        <section class="section">
+          <h2>{cat}</h2>
 
-            <div class="grid">
-              {grouped.get(cat).map((d) => (
-                <a class="card" href={d.data.file} target="_blank" rel="noreferrer">
-                  <div class="icon" aria-hidden="true">📄</div>
+          <div class="grid">
+            {grouped.get(cat).map((d) => (
+              <a class="card card-pad row" href={d.data.file} target="_blank">
+                <div class="meta">
+                  <strong>{d.data.title}</strong>
 
-                  <div class="content">
-                    <div class="title-row">
-                      <span class="title">{d.data.title}</span>
-                      {d.data.date && <span class="badge">{formatDate(d.data.date)}</span>}
-                    </div>
+                  {d.data.description && (
+                    <div class="sub">{d.data.description}</div>
+                  )}
+                </div>
 
-                    {d.data.description && (
-                      <div class="desc">{d.data.description}</div>
-                    )}
-
-                    <div class="cta">
-                      <span class="btn primary">PDF öffnen</span>
-                      <span class="hint">öffnet in neuem Tab</span>
-                    </div>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </section>
-        ))}
-      </div>
+                <div class="right">
+                  <span class="badge">PDF</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))
     )}
   </div>
-
-<style>
-  .empty { margin-top: 14px; }
-  .grid { display:grid; gap:12px; grid-template-columns: repeat(1, minmax(0,1fr)); }
-  @media(min-width: 860px){ .grid{ grid-template-columns: repeat(2, minmax(0,1fr)); } }
-
-  .card{
-    display:flex;
-    gap:12px;
-    text-decoration:none;
-    color:inherit;
-    transition: transform .08s ease, box-shadow .08s ease;
-  }
-  .card:hover{ transform: translateY(-1px); box-shadow: 0 14px 28px rgba(0,0,0,.10); }
-
-  .icon{
-    width:44px;height:44px;border-radius:14px;
-    display:grid;place-items:center;
-    background: rgba(0,0,0,.04);
-    flex: 0 0 auto;
-    font-size: 18px;
-  }
-
-  .title-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
-  .title{ font-weight: 950; letter-spacing:-0.01em; }
-  .badge{ font-size:.78rem; padding:4px 8px; border-radius:999px; background: rgba(0,0,0,.06); white-space:nowrap; }
-
-  .desc{ margin-top:6px; color: var(--muted); line-height:1.45; }
-  .cta{ margin-top:12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .btn{
-    padding: 8px 10px;
-    border-radius: 14px;
-    font-weight: 900;
-    background: linear-gradient(135deg,
-      color-mix(in oklab, var(--brand-600) 88%, black),
-      color-mix(in oklab, var(--brand-500) 88%, black)
-    );
-    color: white;
-    border: 1px solid rgba(0,0,0,.12);
-  }
-  .hint{ color: var(--muted); font-size:.85rem; }
-</style>
 </BaseLayout>
