@@ -91,7 +91,7 @@ p{ margin: 10px 0; color: var(--muted); }
 .site-header{
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 1000;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
 
@@ -174,7 +174,10 @@ p{ margin: 10px 0; color: var(--muted); }
   color: var(--brand-700);
 }
 
-.dropdown{ position:relative; }
+.dropdown{ 
+  position: relative; 
+  z-index: 1001;
+}
 .dropdown > button{
   all: unset;
   cursor: pointer;
@@ -193,6 +196,7 @@ p{ margin: 10px 0; color: var(--muted); }
   position:absolute;
   right: 0;
   top: 46px;
+  z-index: 2000;
   min-width: 220px;
   padding: 8px;
   background: var(--surface);
